@@ -7,6 +7,8 @@ import Database from "./configs/database.js";
 
 import { vehicleRouter } from "./routes/vehicle.route.js";
 
+import { tripRouter } from "./routes/trip.route.js";
+
 
 import { driverRouter } from "./routes/driver.route.js";
 
@@ -16,6 +18,9 @@ db.connect();
 const app = express();
 app.use(json());
 app.use(cors());
+const upload = multer();
+
+app.use(upload.any());
 
 const upload = multer();
 
@@ -23,13 +28,17 @@ app.use(upload.any());
 
 
 app.get("/", (req, res) => {
-    res.send("Hello22344");
+
+  res.send("Trang chu");
 });
 app.use("/vehicle", vehicleRouter);
+app.use("/trip", tripRouter);
+
 
 
 
 app.use("/drivers", driverRouter);
+
 
 
 app.listen(PORT, () => {

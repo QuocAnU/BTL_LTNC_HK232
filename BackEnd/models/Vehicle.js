@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 const VehicleSchema = new mongoose.Schema({
-  ids: {
-    type: String,
-    default: "",
-  },
+  ids: Number,
   type: {
     type: String,
     default: "",
@@ -20,6 +17,10 @@ const VehicleSchema = new mongoose.Schema({
   status: {
     type: String,
     default: "on",
+  },
+  delete: {
+    type: Boolean,
+    default: false,
   },
 });
 
