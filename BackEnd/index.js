@@ -1,6 +1,7 @@
 import express from "express";
 import { json } from "express";
 import { PORT } from "./env.js";
+import multer from "multer";
 import cors from "cors";
 import Database from "./configs/database.js";
 
@@ -16,9 +17,13 @@ const app = express();
 app.use(json());
 app.use(cors());
 
+const upload = multer();
+
+app.use(upload.any());
+
 
 app.get("/", (req, res) => {
-  res.send("Hello22344");
+    res.send("Hello22344");
 });
 app.use("/vehicle", vehicleRouter);
 
