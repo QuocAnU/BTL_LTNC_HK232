@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { getAllDrivers, addDrivers, updateDrivers, deleteDrivers } from "../controllers/drivers.controller.js";
+import { getAllDrivers, addDrivers, updatedDrivers, deletedDrivers, getHistoryDrivers } from "../controllers/drivers.controller.js";
 
 const router = Router()
 
 router
     .route("/")
     .get(getAllDrivers)
-    .post(addDrivers)
-router.route("/:id").put(updateDrivers).delete(deleteDrivers)
+router.route("/create").post(addDrivers)
+router.route("/update/:id").put(updatedDrivers)
+router.route("/delete/:id").delete(deletedDrivers)
+router.route("/history/:id").get(getHistoryDrivers);
 
 export const driverRouter = router;

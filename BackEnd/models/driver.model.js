@@ -35,11 +35,11 @@ const driverSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    deletes: {
+    deleted: {
         type: Boolean,
         required: true,
     }
-});
+}, { versionKey: false });
 
 const Drivers = mongoose.model("Drivers", driverSchema);
 
@@ -70,14 +70,35 @@ class DriversManager {
         }
     }
     static async deletedDriver(id) {
-        const driver = await Drivers.findById(id);
-        if (!driver) {
-            return res.status(404).send({ message: "Driver not found" });
+        try {
+            const driver = await Drivers.findById(id);
+            if (!driver) {
+                return res.status(404).send({ message: "Driver not found" });
+            }
+            driver.deleted = true;
+            await driver.save();
+            return driver;
         }
-        driver.deletes = true;
-        await driver.save();
-        return driver;
+        catch (error) {
+            console.error(error.message);
+            throw new Error("Failed to deleted driver");
+        }
     }
 }
+
+// export const getDriverById = async (id) => {
+//     try {
+//         const driversById = await Drivers.findById(id);
+//         if (!driversById) {
+//             return res.status(404).send({ message: "Driver not found" });
+//         }
+//         return driversById
+//     } catch (error) {
+//         console.error(error.message);
+//         throw new Error("Failed to get driver");
+//     }
+// }
+
+
 export { Drivers, DriversManager };
 
