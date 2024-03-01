@@ -22,7 +22,7 @@ export const loginAdmin = async (req, res) => {
             return res.status(401).json({ message: "Invalid email or password" });
         }
         const token = jwt.sign({ email: adminFound.email }, "ManDan", {
-            expiresIn: "1h",
+            expiresIn: "5h",
         })
         res.json({ token: token, message: "Login successfully" });
     }

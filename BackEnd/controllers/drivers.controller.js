@@ -109,8 +109,13 @@ export const getHistoryDrivers = async (req, res) => {
     try {
         verifyToken(req, res, async () => {
             const { id } = req.params;
+            console.log(id);
             const driversById = await Drivers.findById(id);
             const historyDrivers = await Trip.find({ ids_driver: driversById.STT })
+            // console.log(historyDrivers.length);
+            // if (historyDrivers.length === 0) {
+            //     return res.status(404).send({ message: "No data" });
+            // }
             return res.status(200).send(historyDrivers);
         })
 
