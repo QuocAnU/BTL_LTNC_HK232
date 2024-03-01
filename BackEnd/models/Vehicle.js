@@ -18,7 +18,7 @@ const VehicleSchema = new mongoose.Schema({
     type: String,
     default: "on",
   },
-  delete: {
+  deleted: {
     type: Boolean,
     default: false,
   },
