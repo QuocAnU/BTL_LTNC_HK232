@@ -2,8 +2,14 @@ import mongoose from "mongoose";
 const TripSchema = new mongoose.Schema(
   {
     STT: Number,
-    date_start: Date,
-    date_expected: Date,
+    date_start: {
+      type: String,
+      default: "",
+    },
+    date_expected: {
+      type: String,
+      default: "",
+    },
     status: {
       type: String,
       default: "not begin",

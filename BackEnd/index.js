@@ -9,10 +9,7 @@ import { vehicleRouter } from "./routes/vehicle.route.js";
 
 import { tripRouter } from "./routes/trip.route.js";
 
-
-
 import { adminRouter } from "./routes/admin.route.js";
-
 
 import { driverRouter } from "./routes/driver.route.js";
 
@@ -23,11 +20,10 @@ const app = express();
 app.use(json());
 app.use(cors());
 
-
-
+const upload = multer();
+app.use(upload.any());
 app.get("/", (req, res) => {
   res.send("Trang chu");
-
 });
 app.use("/admin", adminRouter);
 app.use("/vehicle", vehicleRouter);
