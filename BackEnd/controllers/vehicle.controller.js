@@ -54,7 +54,7 @@ export const deleteVehicle = async (req, res) => {
     if (!vehicle) {
       return res.status(404).json({ message: "Vehicle not found" });
     } else {
-      await Vehicle.findOneAndUpdate({ ids: ids }, { delete: true });
+      await Vehicle.findOneAndUpdate({ ids: ids }, { deleted: true });
       res.redirect("/vehicle/getall");
     }
   } catch (error) {
