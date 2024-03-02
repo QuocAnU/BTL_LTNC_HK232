@@ -2,10 +2,10 @@ import { Vehicle } from "../models/Vehicle.js";
 import { verifyToken } from "../middleware/jwtAuthentication.js";
 export const getAllVehicles = async (req, res) => {
   try {
-    verifyToken(req, res, async () => {
-      const vehicles = await Vehicle.find();
-      res.send(vehicles);
-    });
+    // verifyToken(req, res, async () => {
+    const vehicles = await Vehicle.find();
+    res.send(vehicles);
+    // });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

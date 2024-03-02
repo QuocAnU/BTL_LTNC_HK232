@@ -7,7 +7,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ListSharpIcon from "@mui/icons-material/ListSharp";
 import LocalShippingSharpIcon from "@mui/icons-material/LocalShippingSharp";
 import AirlineSeatReclineExtraSharpIcon from "@mui/icons-material/AirlineSeatReclineExtraSharp";
-import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import PhoneIcon from "@mui/icons-material/Phone";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const cx = classNames.bind(styles);
 function Header() {
@@ -45,17 +45,8 @@ function Header() {
         </div>
       </div>
       <div className={cx("search")}>
-        <div className={cx("search-container")}>
-          <input
-            type="text"
-            placeholder="Search by ID or name"
-            className={cx("search-input")}
-          ></input>
-          <TravelExploreIcon
-            className={cx("search-icon1")}
-            sx={{ fontSize: 30, fill: "rgba(0, 0, 0, 0.35)" }}
-          />
-        </div>
+        <PhoneIcon className={cx("search-icon1")} sx={{ fontSize: 40 }} />
+        <h3 className={cx("search-icon1")}>Hotline: 0842870089</h3>
         <AccountCircleIcon
           className={cx("search-icon2")}
           sx={{ fontSize: 40 }}
