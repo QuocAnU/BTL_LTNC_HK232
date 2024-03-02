@@ -1,7 +1,7 @@
 import styles from "./Listcar.module.scss";
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
-import Card from "../../../Components/Card/Card";
+import Card from "../../../components/Card/Card";
 import { Button } from "@mui/material";
 const cx = classNames.bind(styles);
 function Listcar() {
