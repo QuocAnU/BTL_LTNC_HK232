@@ -1,10 +1,28 @@
 .header-card {
+  display: flex;
+  left: 0;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 15px;
 }
-.header-card-status {
+.header-card-status-on {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: greenyellow;
+}
+.header-card-status-off {
   width: 35px;
   height: 35px;
   border-radius: 50%;
   background: red;
 }
+.header-card-status-maintain {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: yellow;
+}
 .header-card-name {
+  font-size: 20px;
 }

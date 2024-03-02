@@ -1,38 +1,65 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import styles from "./Card.module.scss";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
-export default function MediaCard() {
+export default function MediaCard({ ids, type, size, weight, fuel, status }) {
+  let statusClass = "";
+  if (status === "on") {
+    statusClass = cx("header-card-status-on");
+  }
+  if (status === "off") {
+    statusClass = cx("header-card-status-off");
+  }
+  if (status === "maintain") {
+    statusClass = cx("header-card-status-maintain");
+  }
   return (
-    <Card sx={{ maxWidth: 260 }}>
+    <Card
+      sx={{
+        minWidth: 230,
+        maxWidth: 300,
+        background: "#176B87",
+        color: "white",
+        borderRadius: 5,
+        margin: 5,
+      }}
+    >
       <div className={cx("header-card")}>
-        <div className={cx("header-card-status")}></div>
-        <div className={cx("header-card-name")}>Car ID: 123456</div>
+        <div className={statusClass}></div>
+        <div className={cx("header-card-name")}>Type: {type}</div>
       </div>
       <CardMedia
         sx={{ height: 120 }}
         image="/static/images/cards/contemplative-reptile.jpg"
         title="green iguana"
       />
-      <CardContent>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
+          Information
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+        <Typography variant="body2" color="text.white">
+          IDS:{ids}
+        </Typography>
+        <Typography variant="body2" color="text.white">
+          Size:{size}
+        </Typography>
+        <Typography variant="body2" color="text.white">
+          Weight:{weight}
+        </Typography>
+        <Typography variant="body2" color="text.white">
+          Fuel:{fuel}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions>
     </Card>
   );
 }
