@@ -13,12 +13,16 @@ export const getAdminById = async (req, res) => {
 export const loginAdmin = async (req, res) => {
     const { email, password } = req.body;
     try {
+        console.log(req.body)
         const adminFound = await Admin.findOne({ email: email });
         console.log(adminFound);
+        if (!adminFound.email) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
         const hashedPassword = await bcrypt.compare(password, adminFound.password);
         console.log(hashedPassword);
-        console.log()
-        if (!adminFound.email || !hashedPassword) {
+        
+        if (!hashedPassword) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
         const token = jwt.sign({ email: adminFound.email }, "ManDan", {
