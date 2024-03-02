@@ -39,7 +39,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-right: 100px;
+  &:hover {
+    background-color: white;
+    border-radius: 16px;
+    cursor: pointer;
+    color: #176b87;
+  }
 }
 .search-container {
   position: relative;
@@ -50,6 +55,7 @@
 .search-icon2 {
   width: 50px;
   height: 100%;
+  margin-right: 30px;
 }
 .search-input {
   width: 250px;

@@ -26,6 +26,7 @@ export default function MediaCard({ ids, type, size, weight, fuel, status }) {
         color: "white",
         borderRadius: 5,
         margin: 5,
+        cursor: "pointer",
       }}
     >
       <div className={cx("header-card")}>
