@@ -1,0 +1,33 @@
+.header-card {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.header-card-status-on {
+    margin-right: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #D2FC5A;
+}
+.header-driver-status-free {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #B1CCFF;
+    margin-right: 10px;
+}
+
+.header-driver-status-off {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #F4A4Ad;
+    margin-right: 10px;
+}
+
+.header-card-name {
+    font-size: 20px;
+}
