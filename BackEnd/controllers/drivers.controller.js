@@ -7,7 +7,25 @@ export const getAllDrivers = async (req, res) => {
     try {
         verifyToken(req, res, async () => {
             const allDrivers = await Drivers.find();
-            return res.status(200).send(allDrivers);
+            // const driversWithVehicles = [];
+            // for (const driver of allDrivers) {
+            //     const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
+            //     if (vehicle) {
+            //         driversWithVehicles.push({ driver, vehicle });
+            //     }
+            // }
+            const driversWithVehicles = await Promise.all(allDrivers.map(async (driver) => {
+                const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
+                if (vehicle) {
+                    const driverWithVehicle = { ...driver.toObject(), vehicleType: vehicle.type };
+                    return driverWithVehicle;
+                }
+                return null;
+            }));
+
+            const validDriversWithVehicles = driversWithVehicles.filter((item) => item !== null);
+
+            return res.status(200).send(validDriversWithVehicles);
         })
     } catch (error) {
         console.error(error.message);
