@@ -1,3 +1,116 @@
-.login {
-  background: red;
+
+.background {
+    background-color: #B4D4FF;
+    height: 100vh;
+    width: 100%;
 }
+.login {
+    display: flex;
+    justify-content: center;
+        align-items: center;
+        height: 100vh;
+}
+.logo-image {
+    width: 60%;
+    max-width: 900px;
+    height: auto;
+    margin: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+}
+.image {
+    max-width: 100%;
+    height: auto;
+}
+.login-form {
+    width: 60%;
+    max-width: 900px;
+    margin-top: 50px ;
+}
+.form {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+   
+    background-color: #EEF5FF;
+    border: 1px solid rgba(0, 0, 0, 1);
+    box-sizing: border-box;
+    border-radius: 49px;
+    margin: auto;   
+}
+
+.title {
+    display: flex;
+        flex-direction: column; 
+    align-items: baseline;   
+    margin-top: 30px;
+    padding-inline: 35px;
+   
+}
+.login-text {
+    font-size : 4vw;
+    font-family: NATS, sans-serif;
+    font-weight: bold;
+
+
+}
+.input {
+        background-color: #B1CCFF;
+            border-radius: 10px;
+            height: 40px;
+            width: 480px;
+        margin-top: 10px;    
+        padding: 0 20px;
+}
+.pass {
+    display: flex;
+        justify-content: space-between;
+    width: 480px ;
+}
+.lable-text {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+.lable-text-1 {
+    font-size: 20px;
+    color: #027fe6;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+.button {
+    margin-top: 50px;
+    background-color: #B1CCFF;
+        border-radius: 20px;
+        height: 70px;
+        width: 180px;
+        border: #EEF5FF;
+        font-size: 32px;
+}
+.lable-text-2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 80px;
+}
+.button-icon {
+    display: flex;
+    justify-content: center;
+}
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+.imageX {
+    margin-right: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 20px;
+}
+
