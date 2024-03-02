@@ -7,7 +7,7 @@ const driverSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    names: {
+    name: {
         type: String,
         required: true,
     },

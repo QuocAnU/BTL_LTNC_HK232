@@ -1,5 +1,5 @@
-import Card from "../../Components/Card/Card";
-import Header from "../../Components/Header/Header";
+import Card from "../../components/Card/Card";
+import Header from "../../components/Header/Header";
 function CarManage() {
   return (
     <div>

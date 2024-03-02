@@ -78,7 +78,7 @@ const Login = () => {
                     const token = await response.data.token;
 
                     localStorage.setItem('token', token)
-                    navigate("/")
+                    navigate("/admin/drivermanage")
 
                 }
 
