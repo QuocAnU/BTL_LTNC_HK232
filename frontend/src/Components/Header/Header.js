@@ -7,8 +7,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import ListSharpIcon from "@mui/icons-material/ListSharp";
 import LocalShippingSharpIcon from "@mui/icons-material/LocalShippingSharp";
 import AirlineSeatReclineExtraSharpIcon from "@mui/icons-material/AirlineSeatReclineExtraSharp";
-import PhoneIcon from "@mui/icons-material/Phone";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import BasicMenu from "./Menuprofile/Menuprofile";
 const cx = classNames.bind(styles);
 function Header() {
   const handleBackHome = () => {
@@ -45,13 +46,17 @@ function Header() {
         </div>
       </div>
       <div className={cx("search")}>
-        <PhoneIcon className={cx("search-icon1")} sx={{ fontSize: 40 }} />
-        <h3 className={cx("search-icon1")}>Hotline: 0842870089</h3>
-        <AccountCircleIcon
-          className={cx("search-icon2")}
+        <SupportAgentIcon
+          className={cx("search-icon1")}
           sx={{ fontSize: 40 }}
         />
+        <h3 className={cx("search-icon1")}>Hotline: 0842.870.089</h3>
       </div>
+      <BasicMenu>
+        <AccountCircleIcon className={cx("search-icon2")} sx={{ fontSize: 40 }}>
+          <AccountCircleIcon />
+        </AccountCircleIcon>
+      </BasicMenu>
     </div>
   );
 }
