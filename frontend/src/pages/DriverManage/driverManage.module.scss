@@ -1,0 +1,16 @@
+.styles-box {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    // height: 100%;
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+.listdriver {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+}

@@ -1,0 +1,64 @@
+.modal-content {
+    background-color: white;
+   
+    border-radius: 30px;
+   
+    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+   
+}
+.text {
+    text-align: center;
+}
+.content {
+    display: flex;
+}
+.history-content {
+    padding-right: 40px;
+    
+    
+}
+
+.route-history {
+    background-color: #EEF5FF;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.styles-box {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    //  padding: 5px;
+    // height: 100%;
+    max-height: 272px;
+    overflow-y: auto;
+}
+
+/* Trong file CSS của bạn */
+.table-container {
+    background-color: #B3E5FC;
+    /* Màu nền xanh */
+    
+}
+
+.table-container table {
+    width: 100%;
+    
+    border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+    border: 1px solid #176B87;
+    /* Màu viền */
+    padding: 8px;
+    text-align: center;
+    
+    
+}
+
+.table-container th {
+    background-color: #2196F3;
+    /* Màu nền xanh của header */
+    color: white;
+    /* Màu chữ */
+}

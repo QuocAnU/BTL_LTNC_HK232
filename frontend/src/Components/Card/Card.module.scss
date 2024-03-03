@@ -9,19 +9,31 @@
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: greenyellow;
+  background: #D2FC5A;
 }
 .header-card-status-off {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: red;
+  background: #F4A4Ad;
 }
 .header-card-status-maintain {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: yellow;
+  background: #B1CCFF;
+}
+.header-driver-status-free {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #B1CCFF;
+}
+.header-driver-status-off {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #F4A4Ad;
 }
 .header-card-name {
   font-size: 20px;
