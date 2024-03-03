@@ -1,5 +1,4 @@
-
-import Header from "../../Components/Header/Header";
+import Header from "../../components/Header/Header";
 import styles from "./CarManage.module.scss";
 import classNames from "classnames/bind";
 import Listcar from "./Listcar/Listcar";
