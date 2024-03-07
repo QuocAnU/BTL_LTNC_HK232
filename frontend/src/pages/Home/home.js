@@ -9,10 +9,13 @@ const navigateLogin = () => {
 const Home = () => {
 
     return (
-        <div className={cx('home-tile')}>Home page
-                <div className={cx('logo-image')}> <img src={logo} alt='logo' className={cx('image')} /> </div>
-                <button className={cx('button')} type="submit"  onClick={navigateLogin}>Login</button>
-        </div>
+       //<div className={cx('home')}>
+                <div className={cx('image')}>
+                    <img src={logo} alt='logo' className={cx('image')} />
+                    <button className={cx('button')} type="submit"  onClick={navigateLogin}>Login</button> 
+                </div>
+
+     //  </div>
 
 
     )
