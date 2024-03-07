@@ -1,0 +1,43 @@
+.home-tile{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;   
+    margin-top: 30px;
+    padding-inline: 35px;
+    font-size: 50px;
+}
+.image {
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.button {
+    margin-top: 50px;
+    background-color: #B1CCFF;
+        border-radius: 20px;
+        height: 70px;
+        width: 140px;
+        border: #EEF5FF;
+        font-size: 32px;
+        color: #000000;
+        font-family: Jost;
+        font-weight: normal;
+        cursor: pointer;
+        
+}
+.button:hover {
+    margin-top: 50px;
+    background-color: #176B87;
+        border-radius: 20px;
+        height: 70px;
+        width: 140px;
+        border: #EEF5FF;
+        font-size: 32px;
+        color: #ffffff;
+        font-family: Jost;
+        font-weight: normal;
+        cursor: pointer;
+        
+}
