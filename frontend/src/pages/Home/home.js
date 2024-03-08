@@ -12,7 +12,7 @@ const Home = () => {
        //<div className={cx('home')}>
                 <div className={cx('image')}>
                     <img src={logo} alt='logo' className={cx('image')} />
-                    <button className={cx('button')} type="submit"  onClick={navigateLogin}>Login</button> 
+                    <button className={cx('button')} type="submit"  onClick={navigateLogin}><span>Login</span></button> 
                 </div>
 
      //  </div>
