@@ -4,7 +4,7 @@ import classNames from 'classnames/bind'
 import styles from './home.module.scss'
 const cx = classNames.bind(styles);
 const navigateLogin = () => {
-     window.location.assign("./../../admin/Login") //cho nay dung hay sai em cung k biet:))
+     window.location.assign("/admin/Login") //cho nay dung hay sai em cung k biet:))
   };
 const Home = () => {
 
