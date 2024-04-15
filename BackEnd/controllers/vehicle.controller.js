@@ -77,7 +77,11 @@ export const updateVehicle = async (req, res) => {
   try {
     verifyToken(req, res, async () => {
       let { ids, type, size, weight, fuel, status, deleted } = req.body;
+      let urlimage = req.body.file;
       const vehicle = await Vehicle.findOne({ ids: parseInt(ids) });
+      if (!urlimage) {
+        urlimage = vehicle.urlimage;
+      }
       if (!type) {
         type = vehicle.type;
       }
@@ -105,6 +109,7 @@ export const updateVehicle = async (req, res) => {
           fuel: fuel,
           status: status,
           deleted: deleted,
+          urlimage: urlimage,
         }
       );
       res.status(200).json({ message: "Update success" });

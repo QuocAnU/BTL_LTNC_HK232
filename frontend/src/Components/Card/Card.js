@@ -5,10 +5,10 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import styles from "./Card.module.scss";
 import classNames from "classnames/bind";
-import image from "../../assets/alt.avif";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ModalEdit from "../../pages/CarManage/ModalEdit/ModalEdit";
 const cx = classNames.bind(styles);
 export default function MediaCard({
   ids,
@@ -18,6 +18,7 @@ export default function MediaCard({
   fuel,
   status,
   urlimage,
+  notify,
 }) {
   let statusClass = "";
   if (status === "on") {
@@ -30,8 +31,12 @@ export default function MediaCard({
     statusClass = cx("header-card-status-maintain");
   }
   if (urlimage === "") {
-    urlimage = image;
+    urlimage =
+      "https://res.cloudinary.com/dsvirmefr/image/upload/v1713114619/mybkar/mercedes_d9vkwx.jpg";
   }
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <Card
       sx={{
@@ -83,16 +88,31 @@ export default function MediaCard({
             style={{
               background: "#FFFFFF",
               color: "black",
+              marginRight: 10,
             }}
+            onClick={handleOpen}
           >
             <EditIcon />
           </Button>
           <Button
             variant="contained"
             style={{ background: "#FFFFFF", color: "black" }}
+            onClick={handleDelete}
           >
             <DeleteIcon />
           </Button>
+          <ModalEdit
+            open={open}
+            onClose={handleClose}
+            newids={ids}
+            newtype={type}
+            newsize={size}
+            newweight={weight}
+            newfuel={fuel}
+            newstatus={status}
+            newurlimage={urlimage}
+            notify={notify}
+          ></ModalEdit>
         </CardContent>
       </CardContent>
     </Card>
