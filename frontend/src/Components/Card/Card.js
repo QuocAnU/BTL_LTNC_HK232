@@ -37,6 +37,9 @@ export default function MediaCard({
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleDelete = () => {
+    console.log("delete");
+  };
   return (
     <Card
       sx={{
