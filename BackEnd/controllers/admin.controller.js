@@ -1,11 +1,11 @@
 import { hashPassword } from "../middleware/jwtAuthentication.js";
-import { Admin } from "../models/admin.js";
+import { Admins } from "../models/admin.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 export const getAdminById = async (req, res) => {
     const { id } = req.params;
-    const admin = await Admin.findById(id);
+    const admin = await Admins.findById(id);
     return res.status(200).send(admin);
 
 }
@@ -14,14 +14,14 @@ export const loginAdmin = async (req, res) => {
     const { email, password } = req.body;
     try {
         console.log(req.body)
-        const adminFound = await Admin.findOne({ email: email });
+        const adminFound = await Admins.findOne({ email: email });
         console.log(adminFound);
         if (!adminFound.email) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
         const hashedPassword = await bcrypt.compare(password, adminFound.password);
         console.log(hashedPassword);
-        
+
         if (!hashedPassword) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
@@ -42,12 +42,12 @@ export const addAdmin = async (req, res) => {
         if (!name || !email || !password) {
             return res.status(400).send({ message: "Pls send all required fields!" });
         }
-        const adminFound = await Admin.findOne({ email: email });
+        const adminFound = await Admins.findOne({ email: email });
         if (adminFound) {
             return res.status(400).send({ message: "Email is already in use!" });
         }
         const hashedPassword = await hashPassword(password);
-        const admin = new Admin({
+        const admin = new Admins({
             name: name,
             email: email,
             password: hashedPassword
@@ -70,17 +70,17 @@ export const updatedAdmin = async (req, res) => {
         if (!name || !email || !password) {
             return res.status(400).send({ message: "Pls send all required fields!" });
         }
-        const adminFound = await Admin.findOne({ email: email });
+        const adminFound = await Admins.findOne({ email: email });
         if (adminFound) {
             return res.status(400).send({ message: "Email is already in use!" });
         }
         const hashedPassword = await hashPassword(password);
-        const admin = new Admin({
+        const admin = new Admins({
             name: name,
             email: email,
             password: hashedPassword
         })
-        const updated = await Admin.findByIdAndUpdate(id, admin, { new: true });
+        const updated = await Admins.findByIdAndUpdate(id, admin, { new: true });
         if (!updated) {
             return res.status(404).send({ message: "Email not found" });
         }
