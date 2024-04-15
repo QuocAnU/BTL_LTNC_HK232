@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 .wrapper {
   width: 100%;
   height: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(177, 204, 255, 1);
+  background: #B5EDFF;
   box-shadow: 0px 1px 6px 2px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
   position: sticky;
@@ -42,21 +43,31 @@
   align-items: center;
   &:hover {
     background-color: white;
-    border-radius: 16px;
+    border-radius: 32px;
     cursor: pointer;
     color: #176b87;
   }
+  background-color: #B1CCFF;
+  border-radius: 32px;
+  // margin-top: 7px;
+  // margin-bottom: 7px;
+  // padding-top: 2px;
+  // padding-bottom: 2px;
+  opacity: 0.7;
 }
 .search-container {
   position: relative;
+ 
 }
 .search-icon1 {
-  margin-right: 15px;
+  padding-left: 15px;
+  font-family: Jost;
+  font-weight: normal;;
 }
 .search-icon2 {
-  width: 50px;
+  width: 65px;
   height: 100%;
-  margin-right: 30px;
+
 }
 .search-input {
   width: 250px;

@@ -5,28 +5,28 @@ import { Drivers, DriversManager } from "../models/driver.model.js";
 
 export const getAllDrivers = async (req, res) => {
     try {
-        verifyToken(req, res, async () => {
-            const allDrivers = await Drivers.find();
-            // const driversWithVehicles = [];
-            // for (const driver of allDrivers) {
-            //     const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
-            //     if (vehicle) {
-            //         driversWithVehicles.push({ driver, vehicle });
-            //     }
-            // }
-            const driversWithVehicles = await Promise.all(allDrivers.map(async (driver) => {
-                const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
-                if (vehicle) {
-                    const driverWithVehicle = { ...driver.toObject(), vehicleType: vehicle.type };
-                    return driverWithVehicle;
-                }
-                return null;
-            }));
+        // verifyToken(req, res, async () => {
+        const allDrivers = await Drivers.find();
+        // const driversWithVehicles = [];
+        // for (const driver of allDrivers) {
+        //     const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
+        //     if (vehicle) {
+        //         driversWithVehicles.push({ driver, vehicle });
+        //     }
+        // }
+        const driversWithVehicles = await Promise.all(allDrivers.map(async (driver) => {
+            const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
+            if (vehicle) {
+                const driverWithVehicle = { ...driver.toObject(), vehicleType: vehicle.type };
+                return driverWithVehicle;
+            }
+            return null;
+        }));
 
-            const validDriversWithVehicles = driversWithVehicles.filter((item) => item !== null);
+        const validDriversWithVehicles = driversWithVehicles.filter((item) => item !== null);
 
-            return res.status(200).send(validDriversWithVehicles);
-        })
+        return res.status(200).send(validDriversWithVehicles);
+        // })
     } catch (error) {
         console.error(error.message);
         res.status(500).send({ message: "Internal Server Error" });
