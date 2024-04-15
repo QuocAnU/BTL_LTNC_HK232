@@ -22,6 +22,10 @@ const VehicleSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  urlimage: {
+    type: String,
+    default: "",
+  },
 });
 
 export const Vehicle = mongoose.model("Vehicle", VehicleSchema);
