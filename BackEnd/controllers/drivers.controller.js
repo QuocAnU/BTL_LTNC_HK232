@@ -5,7 +5,7 @@ import { Drivers, DriversManager } from "../models/driver.model.js";
 
 export const getAllDrivers = async (req, res) => {
     try {
-        verifyToken(req, res, async () => {
+       // verifyToken(req, res, async () => {
             const allDrivers = await Drivers.find();
             // const driversWithVehicles = [];
             // for (const driver of allDrivers) {
@@ -26,7 +26,7 @@ export const getAllDrivers = async (req, res) => {
             const validDriversWithVehicles = driversWithVehicles.filter((item) => item !== null);
 
             return res.status(200).send(validDriversWithVehicles);
-        })
+        
     } catch (error) {
         console.error(error.message);
         res.status(500).send({ message: "Internal Server Error" });
