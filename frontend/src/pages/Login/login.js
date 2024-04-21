@@ -10,6 +10,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 const cx = classNames.bind(styles)
 
+
+
 const Login = () => {
 
     const [email, setEmail] = useState('');
@@ -97,7 +99,8 @@ const Login = () => {
 
 
 
-    }
+    };
+
     return (
         <div className={cx('background')}>
             <div className={cx('login')}>
@@ -131,7 +134,9 @@ const Login = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onBlur={validatePassword}
+                                    
                                 />
+
                                 {passwordError && <p className={cx('error')}>{passwordError}</p>}
                             </div>
                             <button className={cx('button')} type="submit">Continue</button>

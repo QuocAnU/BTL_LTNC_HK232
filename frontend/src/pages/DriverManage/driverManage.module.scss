@@ -1,9 +1,8 @@
 .styles-box {
-    border: 1px solid #ccc;
+    //border: 1px solid #000000;
     border-radius: 10px;
     padding: 10px;
-    // height: 100%;
-    max-height: 700px;
+    max-height: 800px;
     overflow-y: auto;
 }
 
@@ -13,4 +12,13 @@
     flex-wrap: wrap;
     margin: auto;
     justify-content: center;
+    //background-color: red;
+    font-family: Jost;
+}
+.button_more{
+    background-color: #B1CCFF;
+    color: black;
+    border-radius: 10px;
+    margin: 10px;
+    font-family: Jost;
 }

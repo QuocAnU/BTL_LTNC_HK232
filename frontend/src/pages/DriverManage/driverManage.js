@@ -59,7 +59,7 @@ const DriverManage = () => {
     };
 
     return (
-        <div style={{ paddingTop: '100px', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ paddingTop: '100px', display: 'flex', justifyContent: 'center'}}>
             <div style={{ width: '80%' }}>
 
                 {loading ? (
@@ -78,8 +78,8 @@ const DriverManage = () => {
                         </div>
 
                         {driverData && driverData.length > end && (
-                            <Button onClick={handleShowMore} variant="contained">
-                                More vehicle
+                            <Button  className={cx("button_more")} onClick={handleShowMore} variant="contained">
+                                More
                             </Button>
                         )}
                     </div>
