@@ -8,10 +8,9 @@
   background: #B5EDFF;
   box-shadow: 0px 1px 6px 2px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-
   position: sticky;
   top: 0;
-
+  z-index: 100;
 }
 .action {
   height: 100%;

@@ -3,28 +3,41 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import Card from "../../../components/Card/Card";
 import { Button } from "@mui/material";
+import TransitionsModal from "../Modal/Modal";
+import axios from "axios";
+
 const cx = classNames.bind(styles);
-function Listcar() {
+function Listcar({ notify }) {
   const [vehicle, setVehicle] = useState([]);
   const [end, setEnd] = useState(8);
   const handleShowMore = () => {
     setEnd((prev) => prev + 8);
+    notify();
   };
   const fetchVehicle = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/vehicle/getall");
-      const data = await response.json();
-      console.log(data);
-      setVehicle(data);
-    } catch (error) {
-      console.log(error);
+    const accessToken = localStorage.getItem("token");
+    if (accessToken) {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/vehicle/getall",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setVehicle(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   useEffect(() => {
     fetchVehicle();
-  }, []);
+  }, [vehicle]);
   let start = 0;
   let newVehicle = vehicle.slice(start, end);
+
   return (
     <div className={cx("listcar")}>
       {newVehicle.map((item) => {
@@ -37,12 +50,22 @@ function Listcar() {
             weight={item.weight}
             fuel={item.fuel}
             status={item.status}
+            urlimage={item.urlimage}
+            notify={notify}
           />
         );
       })}
-      <Button onClick={handleShowMore} variant="contained">
-        More vehicle
-      </Button>
+      <div className={cx("listcar-button")}>
+        <div></div>
+        <Button onClick={handleShowMore} variant="contained">
+          More vehicle
+        </Button>
+        <TransitionsModal>
+          <Button variant="contained" className={cx("custom-button")}>
+            Add vehicle
+          </Button>
+        </TransitionsModal>
+      </div>
     </div>
   );
 }

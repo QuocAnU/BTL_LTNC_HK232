@@ -2,10 +2,10 @@ import { Vehicle } from "../models/Vehicle.js";
 import { verifyToken } from "../middleware/jwtAuthentication.js";
 export const getAllVehicles = async (req, res) => {
   try {
-    // verifyToken(req, res, async () => {
-    const vehicles = await Vehicle.find();
-    res.send(vehicles);
-    // });
+    verifyToken(req, res, async () => {
+      const vehicles = await Vehicle.find();
+      res.send(vehicles);
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -47,9 +47,11 @@ export const addVehicle = async (req, res) => {
         size: req.body.size,
         weight: req.body.weight,
         fuel: req.body.fuel,
+        status: req.body.status,
+        urlimage: req.body.file,
       });
       const newVehicle = await vehicle.save();
-      res.status(201).json(newVehicle);
+      res.status(201).send(newVehicle);
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -75,7 +77,11 @@ export const updateVehicle = async (req, res) => {
   try {
     verifyToken(req, res, async () => {
       let { ids, type, size, weight, fuel, status, deleted } = req.body;
+      let urlimage = req.body.file;
       const vehicle = await Vehicle.findOne({ ids: parseInt(ids) });
+      if (!urlimage) {
+        urlimage = vehicle.urlimage;
+      }
       if (!type) {
         type = vehicle.type;
       }
@@ -103,6 +109,7 @@ export const updateVehicle = async (req, res) => {
           fuel: fuel,
           status: status,
           deleted: deleted,
+          urlimage: urlimage,
         }
       );
       res.status(200).json({ message: "Update success" });
