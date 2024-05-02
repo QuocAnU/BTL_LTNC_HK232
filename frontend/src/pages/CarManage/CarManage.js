@@ -23,7 +23,7 @@ function CarManage() {
         pauseOnHover
         theme="light"
       />
-      <Header />
+
       <h3>List Of Car Available</h3>
       <Listcar notify={notify} notifyDelete={notifyDelete} />
     </div>
