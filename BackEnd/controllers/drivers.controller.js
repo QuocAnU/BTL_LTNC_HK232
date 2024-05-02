@@ -5,28 +5,28 @@ import { Drivers, DriversManager } from "../models/driver.model.js";
 
 export const getAllDrivers = async (req, res) => {
     try {
-        // verifyToken(req, res, async () => {
-        const allDrivers = await Drivers.find();
-        // const driversWithVehicles = [];
-        // for (const driver of allDrivers) {
-        //     const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
-        //     if (vehicle) {
-        //         driversWithVehicles.push({ driver, vehicle });
-        //     }
-        // }
-        const driversWithVehicles = await Promise.all(allDrivers.map(async (driver) => {
-            const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
-            if (vehicle) {
-                const driverWithVehicle = { ...driver.toObject(), vehicleType: vehicle.type };
-                return driverWithVehicle;
-            }
-            return null;
-        }));
+        verifyToken(req, res, async () => {
+            const allDrivers = await Drivers.find();
+            // const driversWithVehicles = [];
+            // for (const driver of allDrivers) {
+            //     const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
+            //     if (vehicle) {
+            //         driversWithVehicles.push({ driver, vehicle });
+            //     }
+            // }
+            const driversWithVehicles = await Promise.all(allDrivers.map(async (driver) => {
+                const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
+                if (vehicle) {
+                    const driverWithVehicle = { ...driver.toObject(), vehicleType: vehicle.type };
+                    return driverWithVehicle;
+                }
+                return null;
+            }));
 
-        const validDriversWithVehicles = driversWithVehicles.filter((item) => item !== null);
+            const validDriversWithVehicles = driversWithVehicles.filter((item) => item !== null);
 
-        return res.status(200).send(validDriversWithVehicles);
-        // })
+            return res.status(200).send(validDriversWithVehicles);
+        })
     } catch (error) {
         console.error(error.message);
         res.status(500).send({ message: "Internal Server Error" });
@@ -34,11 +34,12 @@ export const getAllDrivers = async (req, res) => {
 };
 
 export const addDrivers = async (req, res) => {
-
+    console.log(req.body)
     try {
         verifyToken(req, res, async () => {
             let driverData = req.body;
-            const requiredFields = ['names', 'phone', 'address', 'license', 'totaldistance', 'statusD', 'ids_car', 'deleted'];
+            console.log(driverData)
+            const requiredFields = ['name', 'gender', 'phone', 'address', 'license', 'totaldistance', 'status', 'ids_car', 'vehicleType', 'deleted', 'urlimage', 'exp'];
             const missingFields = requiredFields.filter(field => !(field in driverData));
             if (missingFields.length > 0) {
                 return res.status(400).send({ message: `Missing required fields: ${missingFields.join(', ')}` });
@@ -53,9 +54,10 @@ export const addDrivers = async (req, res) => {
             console.log("Updated status vihicle successfully");
             return res.status(201).send({
                 driver: driver,
-                message: "Driver deleted successfully"
+                message: "Created driver successfully"
             });
         })
+
 
     } catch (error) {
         console.error(error.message);
@@ -67,17 +69,16 @@ export const updatedDrivers = async (req, res) => {
     try {
         verifyToken(req, res, async () => {
             const { id } = req.params;
-            const { status, ...updatedData } = req.body;
-            const requiredFields = ['STT', 'names', 'phone', 'address', 'license', 'totaldistance', 'statusD', 'ids_car', 'deleted'];
+            console.log("Updated", req.body)
+            const updatedData = req.body;
+            console.log("OP", updatedData)
+            const requiredFields = ['name', 'status', 'address', 'gender', 'phone', 'license', 'vehicleType', 'ids_car', 'urlimage'];
             const missingFields = requiredFields.filter(field => !(field in updatedData));
             if (missingFields.length > 0) {
                 return res.status(400).send({ message: `Missing required fields: ${missingFields.join(', ')}` });
             }
             const oldDriver = await Drivers.findById(id);
             const updatedDriver = await DriversManager.updatedDriver(id, updatedData);
-            console.log("O", oldDriver.ids_car);
-            console.log("N", updatedDriver.ids_car);
-            console.log("ST", status);
 
             if (oldDriver.ids_car !== updatedDriver.ids_car) {
                 // Cập nhật trạng thái của các xe trong ids_car cũ thành "maintain" hoặc "off"
@@ -105,6 +106,7 @@ export const deletedDrivers = async (req, res) => {
     try {
         verifyToken(req, res, async () => {
             const { id } = req.params;
+            console.log("IDs: ", id)
             const deleted = await DriversManager.deletedDriver(id);
 
             console.log("Driver deleted:");

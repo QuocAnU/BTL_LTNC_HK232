@@ -15,6 +15,7 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+
 }, { versionKey: false });
 
 export const Admins = mongoose.model("Admins", adminSchema);
