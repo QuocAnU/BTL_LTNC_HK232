@@ -4,18 +4,33 @@ import CarManage from "../pages/CarManage/CarManage";
 import Header from "../components/Header/Header";
 import Home from "../pages/Home/home";
 import DriverManage from "../pages/DriverManage/driverManage";
+import Sidebar from "../components/Sidebar/sidebar";
+
+import Layout
+  from "../components/Sidebar/layout";
 export const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route
-          path="admin/carmanage"
-          element={
-            <>
-              <CarManage />
-            </>
-          }
-        />
+        <Route path="/admin/" element={<Layout />}>
+          <Route
+            path="carmanage"
+            element={
+              <>
+                <CarManage />
+              </>
+            }
+          />
+          <Route
+            path="drivermanage"
+            element={
+              <>
+                <DriverManage />
+              </>
+            }
+          />
+        </Route>
+
         <Route
           path="admin/login"
           element={
@@ -28,20 +43,11 @@ export const AppRouter = () => {
           path="/"
           element={
             <>
-              <Header />
               <Home />
             </>
           }
         />
-        <Route
-          path="/admin/drivermanage"
-          element={
-            <>
-              <Header />
-              <DriverManage />
-            </>
-          }
-        />
+
       </Routes>
     </Router>
   );
