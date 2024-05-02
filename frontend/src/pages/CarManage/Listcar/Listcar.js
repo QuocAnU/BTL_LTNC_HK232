@@ -7,12 +7,11 @@ import TransitionsModal from "../Modal/Modal";
 import axios from "axios";
 
 const cx = classNames.bind(styles);
-function Listcar({ notify }) {
+function Listcar({ notify, notifyDelete }) {
   const [vehicle, setVehicle] = useState([]);
   const [end, setEnd] = useState(8);
   const handleShowMore = () => {
     setEnd((prev) => prev + 8);
-    notify();
   };
   const fetchVehicle = async () => {
     const accessToken = localStorage.getItem("token");
@@ -34,26 +33,30 @@ function Listcar({ notify }) {
   };
   useEffect(() => {
     fetchVehicle();
-  }, [vehicle]);
+  }, []);
   let start = 0;
   let newVehicle = vehicle.slice(start, end);
 
   return (
     <div className={cx("listcar")}>
       {newVehicle.map((item) => {
-        return (
-          <Card
-            key={item._id}
-            ids={item.ids}
-            type={item.type}
-            size={item.size}
-            weight={item.weight}
-            fuel={item.fuel}
-            status={item.status}
-            urlimage={item.urlimage}
-            notify={notify}
-          />
-        );
+        if (!item.deleted) {
+          return (
+            <Card
+              key={item._id}
+              ids={item.ids}
+              type={item.type}
+              size={item.size}
+              weight={item.weight}
+              fuel={item.fuel}
+              status={item.status}
+              urlimage={item.urlimage}
+              notify={notify}
+              notifyDelete={notifyDelete}
+              fetchVehicle={fetchVehicle}
+            />
+          );
+        }
       })}
       <div className={cx("listcar-button")}>
         <div></div>

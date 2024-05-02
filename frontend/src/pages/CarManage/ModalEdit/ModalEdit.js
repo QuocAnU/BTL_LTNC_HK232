@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import styles from "./ModalEdit.module.scss";
 import classNames from "classnames/bind";
 import axios from "axios";
-import { useEffect } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -32,6 +31,7 @@ export default function TransitionsModal({
   newstatus,
   newurlimage,
   notify,
+  fetchVehicle,
 }) {
   const [display, setDisplay] = React.useState("none");
   const [display2, setDisplay2] = React.useState("block");
@@ -112,6 +112,7 @@ export default function TransitionsModal({
         if (response.status === 200) {
           await onClose();
           await notify();
+          await fetchVehicle();
         } else alert("failed");
       })
       .catch((error) => {
@@ -138,7 +139,6 @@ export default function TransitionsModal({
             <div className={cx("add-car")}>
               <h3 style={{ alignSelf: "center" }}>Edit an item</h3>
               <form
-                action="http://localhost:3001/vehicle/add"
                 method="POST"
                 encType="multipart/form-data"
                 id="form"
@@ -186,7 +186,6 @@ export default function TransitionsModal({
                     style={{
                       width: "100%",
                       height: "100%",
-                      marginTop: "10px",
                       display: newurlimage ? "block" : display,
                       objectFit: "fit",
                       borderRadius: 30,

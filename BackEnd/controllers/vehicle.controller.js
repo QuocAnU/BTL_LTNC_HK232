@@ -1,4 +1,5 @@
 import { Vehicle } from "../models/Vehicle.js";
+import { Trip } from "../models/Trip.js";
 import { verifyToken } from "../middleware/jwtAuthentication.js";
 export const getAllVehicles = async (req, res) => {
   try {
@@ -113,6 +114,17 @@ export const updateVehicle = async (req, res) => {
         }
       );
       res.status(200).json({ message: "Update success" });
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const getTripByCar = async (req, res) => {
+  try {
+    verifyToken(req, res, async () => {
+      const ids = req.body.ids.ids;
+      const trips = await Trip.find({ ids_car: ids });
+      res.status(200).json(trips);
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

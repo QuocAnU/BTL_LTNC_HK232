@@ -7,7 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 const cx = classNames.bind(styles);
 
 function CarManage() {
-  const notify = () => toast("Edit successfully");
+  const notify = () => toast.success("Edit successfully");
+  const notifyDelete = () => toast.error("Delete successfully");
   return (
     <div className={cx("wrapper")}>
       <ToastContainer
@@ -24,7 +25,7 @@ function CarManage() {
       />
       <Header />
       <h3>List Of Car Available</h3>
-      <Listcar notify={notify} />
+      <Listcar notify={notify} notifyDelete={notifyDelete} />
     </div>
   );
 }
