@@ -24,7 +24,14 @@ function CarManage() {
         theme="light"
       />
 
-      <h3>List Of Car Available</h3>
+      <h3
+        style={{
+          fontSize: 25,
+          fontWeight: "bold",
+        }}
+      >
+        List Of Car Available
+      </h3>
       <Listcar notify={notify} notifyDelete={notifyDelete} />
     </div>
   );

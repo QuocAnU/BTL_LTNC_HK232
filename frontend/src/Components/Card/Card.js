@@ -59,6 +59,7 @@ export default function MediaCard({
         margin: 5,
         cursor: "pointer",
         padding: 1,
+        fontFamily: "Monteserrat, sans-serif",
       }}
     >
       <div className={cx("header-card")}>
@@ -69,7 +70,12 @@ export default function MediaCard({
         <img
           src={urlimage}
           alt="vehicle"
-          style={{ width: "70%", height: "150px", borderRadius: "10px" }}
+          style={{
+            width: "70%",
+            height: "150px",
+            borderRadius: "10px",
+            border: "1px solid #FFFFFF",
+          }}
         />
       </CardMedia>
       <CardContent

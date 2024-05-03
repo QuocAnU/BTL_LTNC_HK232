@@ -1,13 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login/login";
 import CarManage from "../pages/CarManage/CarManage";
-import Header from "../components/Header/Header";
 import Home from "../pages/Home/home";
 import DriverManage from "../pages/DriverManage/driverManage";
-import Sidebar from "../components/Sidebar/sidebar";
+import Trip from "../pages/Trip/Trip";
 
-import Layout
-  from "../components/Sidebar/layout";
+import Layout from "../components/Sidebar/layout";
 export const AppRouter = () => {
   return (
     <Router>
@@ -18,6 +16,14 @@ export const AppRouter = () => {
             element={
               <>
                 <CarManage />
+              </>
+            }
+          />
+          <Route
+            path="trip"
+            element={
+              <>
+                <Trip />
               </>
             }
           />
@@ -47,7 +53,6 @@ export const AppRouter = () => {
             </>
           }
         />
-
       </Routes>
     </Router>
   );
