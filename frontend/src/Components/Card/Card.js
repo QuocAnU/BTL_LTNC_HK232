@@ -5,7 +5,6 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import styles from "./Card.module.scss";
 import classNames from "classnames/bind";
-import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModalEdit from "../../pages/CarManage/ModalEdit/ModalEdit";
@@ -59,6 +58,8 @@ export default function MediaCard({
         borderRadius: 5,
         margin: 5,
         cursor: "pointer",
+        padding: 1,
+        fontFamily: "Monteserrat, sans-serif",
       }}
     >
       <div className={cx("header-card")}>
@@ -69,7 +70,12 @@ export default function MediaCard({
         <img
           src={urlimage}
           alt="vehicle"
-          style={{ width: "70%", height: "150px", borderRadius: "10px" }}
+          style={{
+            width: "70%",
+            height: "150px",
+            borderRadius: "10px",
+            border: "1px solid #FFFFFF",
+          }}
         />
       </CardMedia>
       <CardContent

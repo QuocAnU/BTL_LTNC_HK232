@@ -65,7 +65,9 @@ export default function TripDetail({
                 urlimage={urlimage}
               />
               <div>
-                <div>Route History</div>
+                <div className={cx("title-history")}>
+                  <p>Route History</p>
+                </div>
                 <TableRoute ids={ids} />
               </div>
             </div>
