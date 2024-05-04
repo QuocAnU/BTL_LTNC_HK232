@@ -7,25 +7,7 @@ export const getAllDrivers = async (req, res) => {
     try {
         verifyToken(req, res, async () => {
             const allDrivers = await Drivers.find();
-            // const driversWithVehicles = [];
-            // for (const driver of allDrivers) {
-            //     const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
-            //     if (vehicle) {
-            //         driversWithVehicles.push({ driver, vehicle });
-            //     }
-            // }
-            const driversWithVehicles = await Promise.all(allDrivers.map(async (driver) => {
-                const vehicle = await Vehicle.findOne({ ids_car: driver.car_id });
-                if (vehicle) {
-                    const driverWithVehicle = { ...driver.toObject(), vehicleType: vehicle.type };
-                    return driverWithVehicle;
-                }
-                return null;
-            }));
-
-            const validDriversWithVehicles = driversWithVehicles.filter((item) => item !== null);
-
-            return res.status(200).send(validDriversWithVehicles);
+            return res.status(200).send(allDrivers);
         })
     } catch (error) {
         console.error(error.message);
@@ -72,7 +54,7 @@ export const updatedDrivers = async (req, res) => {
             console.log("Updated", req.body)
             const updatedData = req.body;
             console.log("OP", updatedData)
-            const requiredFields = ['name', 'status', 'address', 'gender', 'phone', 'license', 'vehicleType', 'ids_car', 'urlimage'];
+            const requiredFields = ['STT', 'name', 'gender', 'phone', 'address', 'license', 'totaldistance', 'status', 'ids_car', 'vehicleType', 'deleted', 'urlimage', 'exp'];
             const missingFields = requiredFields.filter(field => !(field in updatedData));
             if (missingFields.length > 0) {
                 return res.status(400).send({ message: `Missing required fields: ${missingFields.join(', ')}` });
@@ -82,7 +64,7 @@ export const updatedDrivers = async (req, res) => {
 
             if (oldDriver.ids_car !== updatedDriver.ids_car) {
                 // Cập nhật trạng thái của các xe trong ids_car cũ thành "maintain" hoặc "off"
-                await Vehicle.updateMany({ ids: { $in: oldDriver.ids_car } }, { $set: { status: status } });
+                await Vehicle.updateMany({ ids: { $in: oldDriver.ids_car } }, { $set: { status: "off" } });
                 console.log("Updated status old vihicle successfully");
                 // Cập nhật trạng thái của các xe mới trong ids_car thành "on"
                 await Vehicle.updateMany({ ids: { $in: updatedDriver.ids_car } }, { $set: { status: "on" } });

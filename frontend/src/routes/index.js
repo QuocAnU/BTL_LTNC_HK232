@@ -5,7 +5,7 @@ import Home from "../pages/Home/home";
 import DriverManage from "../pages/DriverManage/driverManage";
 import Trip from "../pages/Trip/Trip";
 
-import Layout from "../components/Sidebar/layout";
+import Layout from "../Components/Sidebar/layout";
 export const AppRouter = () => {
   return (
     <Router>

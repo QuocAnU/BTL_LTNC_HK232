@@ -27,12 +27,35 @@ export default function EditModalDriver({
     const [display, setDisplay] = React.useState("none");
     const [display2, setDisplay2] = React.useState("block");
     const [file, setFile] = React.useState("");
+    const [status, setStatus] = React.useState(driverData.status)
+    const [gender, setGender] = React.useState(driverData.gender)
 
-    const [name, setName] = React.useState("")
-    const [status, setStatus] = React.useState("on")
-    const [gender, setGender] = React.useState("male")
-    const [vihicleType, setVihicleType] = React.useState("Truck")
+    const [ids_car, setIdsCar] = React.useState(driverData.ids_car)
+    const [vehicleType, setVehicleType] = React.useState(driverData.vehicleType)
+    const [vehicleData, setVehicleData] = React.useState([])
+    const [selectVehicle, setSelectVehicle] = React.useState(null)
 
+
+
+    useEffect(() => {
+        const fetchVehicles = async () => {
+            try {
+                const response = await axios.get("http://localhost:3001/vehicle/getall", {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    }
+                });
+                // Lọc các xe có trạng thái là "off"
+                const offVehicles = response.data.filter(vehicle => vehicle.status === "off");
+                setVehicleData(offVehicles);
+            } catch (error) {
+                console.error("Error fetching vehicles:", error);
+            }
+        };
+
+        fetchVehicles();
+    }, []);
     const handleImageChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -63,6 +86,10 @@ export default function EditModalDriver({
         );
         return result;
     };
+    const findVehicleById = (id) => {
+        setIdsCar(id)
+        return vehicleData.find(car => car.ids === id);
+    }
     const handleEditVehicle = async () => {
         let result;
         if (file) result = await fetchImage(file);
@@ -73,24 +100,29 @@ export default function EditModalDriver({
 
         if (!status) setStatus(driverData.status)
 
-        if (!vihicleType) setVihicleType(driverData.vihicleType)
+
 
         const formData = new FormData();
 
 
-        // formData.append("STT", driverData.STT)
-        formData.append("name", name)
+        formData.append("STT", driverData.STT)
+        formData.append("name", driverData.name)
         formData.append("status", status)
         formData.append("address", driverData.address)
-        formData.append("gender", gender)
+        formData.append("gender", driverData.gender)
         formData.append("phone", driverData.phone)
         formData.append("license", driverData.license)
-        formData.append("vehicleType", vihicleType)
-        formData.append("ids_car", driverData.ids_car)
-        // formData.append("deleted", false)
-        // formData.append("totaldistance", 0)
+        if (selectVehicle) {
+            formData.append("vehicleType", selectVehicle.type)
+        }
+        else {
+            formData.append("vehicleType", vehicleType)
+        }
+        formData.append("ids_car", ids_car)
+        formData.append("deleted", driverData.deleted)
+        formData.append("totaldistance", driverData.totaldistance)
         formData.append("urlimage", result.data)
-        // formData.append("exp",0)
+        formData.append("exp", driverData.exp)
 
         console.log("data", ...formData);
         await axios
@@ -106,6 +138,7 @@ export default function EditModalDriver({
                     alert("Updated successfully")
                     setEditModalOpen(false)
                     setSelectedDriver(response.data.updatedDriver)
+                    window.location.reload()
                 } else alert("failed");
             })
             .catch((error) => {
@@ -176,7 +209,7 @@ export default function EditModalDriver({
                             />
                         </label>
                         <div className={cx("form-group1")}>
-                            <h3 className={cx("title-name")}>Full Name : </h3>
+                            {/* <h3 className={cx("title-name")}>Full Name : </h3>
                             <input
                                 type="text"
                                 defaultValue={driverData.name}
@@ -192,12 +225,12 @@ export default function EditModalDriver({
                                     paddingLeft: "20px",
 
                                 }}
-                            />
+                            /> */}
                             <h3 className={cx("title-status")}>Status: </h3>
                             <select
                                 onChange={(e) => setStatus(e.target.value)}
                                 name="status"
-                                defaultValue={driverData.status}
+                                // defaultValue={driverData.status}
                                 style={{
                                     width: 100,
                                     borderRadius: 5,
@@ -208,27 +241,29 @@ export default function EditModalDriver({
                                     paddingLeft: "20px",
                                 }}
                             >
-                                <option value="on">On</option>
-                                <option value="free">Free</option>
-                                <option value="off">Off</option>
+                                <option value="">{driverData.status}</option>
+                                <option value="on">on</option>
+                                <option value="free">free</option>
+                                <option value="off">off</option>
                             </select>
                         </div>
                         <div className={cx("form-group2")}>
-                            <h3 className={cx("title-name")}> Current car ID : </h3>
+                            <h3 className={cx("title-name")}>Phone : </h3>
                             <input
                                 type="text"
-                                defaultValue={driverData.ids_car}
+                                defaultValue={driverData.phone}
                                 // disabled={true}
                                 style={{
                                     borderRadius: 5,
                                     height: 47,
                                     border: "none",
                                     background: "#d9d9d9",
-
+                                    marginLeft: "55px",
                                     paddingLeft: "20px",
 
                                 }}
                             />
+
                             <h3 className={cx("title-name")}>License : </h3>
                             <input
                                 type="text"
@@ -246,22 +281,28 @@ export default function EditModalDriver({
                             />
                         </div>
                         <div className={cx("form-group3")}>
-                            <h3 className={cx("title-name")}>Phone : </h3>
-                            <input
-                                type="text"
-                                defaultValue={driverData.phone}
-                                // disabled={true}
+
+                            <h3 className={cx("title-name")}> Current car ID : </h3>
+                            <select
+                                onChange={(e) => setSelectVehicle(findVehicleById(e.target.value))}
+                                name="ids_car"
                                 style={{
                                     borderRadius: 5,
                                     height: 47,
                                     border: "none",
                                     background: "#d9d9d9",
-                                    marginLeft: "55px",
                                     paddingLeft: "20px",
 
                                 }}
-                            />
-                            <h3 className={cx("title-fuel")}>Gender: </h3>
+                            >
+                                <option value="">{driverData.ids_car}</option>
+                                {vehicleData.map((car) => (
+                                    <option key={car.ids} value={car.ids}>
+                                        {car.ids}
+                                    </option>
+                                ))}
+                            </select>
+                            {/* <h3 className={cx("title-fuel")}>Gender: </h3>
                             <select
                                 onChange={(e) => setGender(e.target.value)}
                                 name="gender"
@@ -278,27 +319,27 @@ export default function EditModalDriver({
                             >
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
-                            </select>
+                            </select> */}
 
                             <h3 className={cx("title-size")}>Car: </h3>
-                            <select
-                                onChange={(e) => setVihicleType(e.target.value)}
-                                name=""
-                                defaultValue={driverData.vehicleType}
+                            <input
+                                type="text"
+                                name="vehicleType"
+                                value={selectVehicle ? selectVehicle.type : driverData.vehicleType}
+                                // onChange={(e) => setPhone(e.target.value)}
+                                // defaultValue={driverData.phone}
+                                disabled={true}
                                 style={{
-                                    width: 100,
                                     borderRadius: 5,
                                     height: 47,
                                     border: "none",
-                                    paddingLeft: "20px",
                                     background: "#d9d9d9",
+                                    marginLeft: "55px",
+                                    paddingLeft: "20px",
                                     marginRight: "30px"
+
                                 }}
-                            >
-                                <option value="truck">Truck</option>
-                                <option value="medium">Medium</option>
-                                <option value="large">Large</option>
-                            </select>
+                            />
                         </div>
                         <div className={cx("form-group4")}>
 
