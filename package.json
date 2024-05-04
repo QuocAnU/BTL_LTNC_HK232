@@ -1,6 +1,9 @@
 {
   "dependencies": {
+    "@mui/material": "^5.15.16",
+    "@mui/x-data-grid": "^7.3.2",
     "cloudinary": "^2.1.0",
+    "material-react-table": "^2.13.0",
     "react-toastify": "^10.0.5"
   }
 }
