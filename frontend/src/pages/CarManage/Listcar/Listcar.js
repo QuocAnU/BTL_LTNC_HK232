@@ -7,8 +7,9 @@ import TransitionsModal from "../Modal/Modal";
 import axios from "axios";
 
 const cx = classNames.bind(styles);
-function Listcar({ notify, notifyDelete }) {
+function Listcar({ notify, notifyDelete, vehicleOfCar }) {
   const [vehicle, setVehicle] = useState([]);
+
   const [end, setEnd] = useState(8);
   const handleShowMore = () => {
     setEnd((prev) => prev + 8);
@@ -35,7 +36,7 @@ function Listcar({ notify, notifyDelete }) {
     fetchVehicle();
   }, []);
   let start = 0;
-  let newVehicle = vehicle.slice(start, end);
+  let newVehicle = vehicleOfCar.slice(start, end);
 
   return (
     <div className={cx("listcar")}>
