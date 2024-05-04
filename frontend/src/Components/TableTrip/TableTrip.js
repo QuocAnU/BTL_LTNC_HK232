@@ -23,6 +23,7 @@ import { visuallyHidden } from "@mui/utils";
 import axios from "axios";
 import { Button } from "@mui/material";
 import ModalTrip from "../ModalTrip/ModalTrip";
+import SearchTrip from "../SearchTrip/SearchTrip";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -63,7 +64,7 @@ const headCells = [
     id: "ids_car",
     numeric: true,
     disablePadding: false,
-    label: "ID CAR",
+    label: "IDS CAR",
   },
   {
     id: "date_start",
@@ -271,6 +272,7 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState([]);
+  const [tempRows, setTempRows] = React.useState([]);
   const [listTrip, setListTrip] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const fetchTrips = async () => {
@@ -281,6 +283,7 @@ export default function EnhancedTable() {
         },
       });
       setRows(response.data);
+      setTempRows(response.data);
     } catch (error) {
       console.log(error);
     }

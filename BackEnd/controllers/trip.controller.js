@@ -50,6 +50,12 @@ export const createTrip = async (req, res) => {
       const driver = await Drivers.findOne({ STT: ids_driver });
       console.log(driver);
       const ids_car = driver.ids_car;
+      //query to update driver's status to busy
+      const updatedDriver = await Drivers.findOneAndUpdate(
+        { STT: ids_driver },
+        { status: "on" },
+        { new: true }
+      );
       const trip = new Trip({
         STT,
         date_start,
@@ -163,7 +169,7 @@ export const doneTrip = async (req, res) => {
         const newEx = driver.exp + trip.distance / 10;
         const updatedDriver = await Drivers.findOneAndUpdate(
           { STT: trip.ids_driver },
-          { exp: newEx },
+          { exp: newEx, status: "free" },
           { new: true }
         );
       });
