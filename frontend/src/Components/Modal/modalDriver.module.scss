@@ -1,27 +1,29 @@
 .modal-content {
     background-color: white;
-   
-    border-radius: 30px;
-   
+    border-radius: 40px;
+
     // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
    
 }
 .text {
     text-align: center;
+    font-family: Jost;
 }
 .content {
     display: flex;
 }
 .history-content {
     padding-right: 40px;
-    
-    
+    font-family: Jost;
 }
 
 .route-history {
-    background-color: #EEF5FF;
-    border-radius: 30px;
+    font-family: Jost;
+    background-color:#B3E5FC;
+    border-radius: 10px;
     text-align: center;
+    //color: white;
+    //margin: 50px;
 }
 
 .styles-box {
@@ -36,13 +38,16 @@
 /* Trong file CSS của bạn */
 .table-container {
     background-color: #B3E5FC;
+    border: 3px solid #EEF5FF;
+    border-radius: 7px;
+
     /* Màu nền xanh */
     
 }
 
 .table-container table {
     width: 100%;
-    
+
     border-collapse: collapse;
 }
 
@@ -52,7 +57,7 @@
     /* Màu viền */
     padding: 8px;
     text-align: center;
-    
+
     
 }
 

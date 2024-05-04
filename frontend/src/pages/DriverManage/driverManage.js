@@ -78,7 +78,7 @@ const DriverManage = () => {
                         </div>
 
                         {driverData && driverData.length > end && (
-                            <Button  className={cx("button_more")} onClick={handleShowMore} variant="contained">
+                            <Button  className={cx("more_button")} onClick={handleShowMore} variant="contained">
                                 More
                             </Button>
                         )}
