@@ -12,7 +12,7 @@ const TripSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: "not begin",
+      default: "Unfinished",
     },
     start_location: {
       type: String,
@@ -27,7 +27,9 @@ const TripSchema = new mongoose.Schema(
     revenue: { type: Number, default: 0 },
     profit: { type: Number, default: 0 },
     ids_driver: { type: Number, default: 0 },
-    ids_car: { type: Number, default: 0 },
+    ids_car: {
+      type: String,
+    },
     deleted: {
       type: Boolean,
       default: false,

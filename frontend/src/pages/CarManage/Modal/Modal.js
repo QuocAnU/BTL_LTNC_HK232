@@ -33,7 +33,7 @@ export default function TransitionsModal({ children }) {
   };
   const [display, setDisplay] = React.useState("none");
   const [display2, setDisplay2] = React.useState("block");
-  const [name, setName] = React.useState("");
+  const [ids, setIds] = React.useState("");
   const [species, setSpecies] = React.useState("truck");
   const [fuel, setFuel] = React.useState("diesel");
   const [weight, setWeight] = React.useState(0);
@@ -71,7 +71,7 @@ export default function TransitionsModal({ children }) {
   const handleAddVehicle = async () => {
     const result = await fetchImage(file);
     const formData = new FormData();
-    formData.append("name", name);
+    formData.append("ids", ids);
     formData.append("type", species);
     formData.append("fuel", fuel);
     formData.append("weight", weight);
@@ -175,12 +175,12 @@ export default function TransitionsModal({ children }) {
                 </label>
 
                 <div className={cx("form-group1")}>
-                  <h3 className={cx("title-name")}>Name: </h3>
+                  <h3 className={cx("title-name")}>IDS: </h3>
                   <input
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setIds(e.target.value)}
                     type="text"
-                    id="name"
-                    placeholder="Name"
+                    id="ids"
+                    placeholder="IDS"
                     style={{
                       width: 300,
                       borderRadius: 5,

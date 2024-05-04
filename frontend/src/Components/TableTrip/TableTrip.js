@@ -1,247 +1,431 @@
-import React, { useMemo, useState, useEffect } from "react";
-import {
-  MRT_EditActionButtons,
-  MaterialReactTable,
-  useMaterialReactTable,
-} from "material-react-table";
-import {
-  Box,
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
-
-import EditIcon from "@mui/icons-material/Edit";
+import * as React from "react";
+import PropTypes from "prop-types";
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
-const TableTrip = () => {
-  const [validationErrors, setValidationErrors] = useState({});
-  const [customer, setCustomer] = useState([]);
-  const [editingPhone, setEditingPhone] = useState(null);
+import FilterListIcon from "@mui/icons-material/FilterList";
+import { visuallyHidden } from "@mui/utils";
+import axios from "axios";
+import { Button } from "@mui/material";
+import ModalTrip from "../ModalTrip/ModalTrip";
 
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "STT",
-        header: "STT",
-        muiEditTextFieldProps: {
-          type: "integer",
-          required: true,
-          error: !!validationErrors?.STT,
-          helperText: validationErrors?.STT,
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              STT: undefined,
-            }),
-        },
-      },
-      {
-        accessorKey: "Length",
-        header: "Length(km)",
-        muiEditTextFieldProps: {
-          type: "integer",
-          required: true,
-          error: !!validationErrors?.Length,
-          helperText: validationErrors?.Length,
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              STT: undefined,
-            }),
-        },
-      },
-      {
-        accessorKey: "date_start",
-        header: "Time departure",
-        muiEditTextFieldProps: {
-          type: "text",
-          required: true,
-          error: !!validationErrors?.date_start,
-          helperText: validationErrors?.date_start,
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              STT: undefined,
-            }),
-        },
-      },
-      {
-        accessorKey: "status",
-        header: "Status",
-        muiEditTextFieldProps: {
-          type: "text",
-          required: true,
-          error: !!validationErrors?.status,
-          helperText: validationErrors?.status,
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              STT: undefined,
-            }),
-        },
-      },
-      {
-        accessorKey: "start_location",
-        header: "Depart",
-        muiEditTextFieldProps: {
-          type: "text",
-          required: true,
-          error: !!validationErrors?.start_location,
-          helperText: validationErrors?.start_location,
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              STT: undefined,
-            }),
-        },
-      },
-      {
-        accessorKey: "end_location",
-        header: "Dest",
-        muiEditTextFieldProps: {
-          type: "text",
-          required: true,
-          error: !!validationErrors?.end_location,
-          helperText: validationErrors?.end_location,
-          onFocus: () =>
-            setValidationErrors({
-              ...validationErrors,
-              STT: undefined,
-            }),
-        },
-      },
-    ],
-    [validationErrors]
-  );
-  const data = [
-    {
-      STT: 1,
-      Length: 100,
-      date_start: "2022-12-12",
-      status: "Đã hoàn thành",
-      start_location: "Hà Nội",
-      end_location: "Hồ Chí Minh",
-    },
-    {
-      STT: 2,
-      Length: 200,
-      date_start: "2022-12-12",
-      status: "Đã hoàn thành",
-      start_location: "Hà Nội",
-      end_location: "Hồ Chí Minh",
-    },
-    {
-      STT: 3,
-      Length: 300,
-      date_start: "2022-12-12",
-      status: "Đã hoàn thành",
-      start_location: "Hà Nội",
-      end_location: "Hồ Chí Minh",
-    },
-  ];
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
 
-  const handleCreateUser = async ({ values, table }) => {
-    console.log("Create user");
+function getComparator(order, orderBy) {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+const headCells = [
+  {
+    id: "STT",
+    numeric: true,
+    disablePadding: true,
+    label: "STT",
+  },
+  {
+    id: "ids_car",
+    numeric: true,
+    disablePadding: false,
+    label: "ID CAR",
+  },
+  {
+    id: "date_start",
+    numeric: false,
+    disablePadding: false,
+    label: "Date Start",
+  },
+  {
+    id: "distance",
+    numeric: true,
+    disablePadding: false,
+    label: "Distance",
+  },
+  {
+    id: "status",
+    numeric: false,
+    disablePadding: false,
+    label: "Status",
+  },
+  {
+    id: "start_location",
+    numeric: false,
+    disablePadding: false,
+    label: "Start Departure",
+  },
+  {
+    id: "end_location",
+    numeric: false,
+    disablePadding: false,
+    label: "Destination",
+  },
+];
+
+function EnhancedTableHead(props) {
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
   };
 
-  const handleSaveUser = async ({ values, table }) => {};
+  return (
+    <TableHead>
+      <TableRow>
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{
+              "aria-label": "select all desserts",
+            }}
+          />
+        </TableCell>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            padding={headCell.disablePadding ? "none" : "normal"}
+            sortDirection={orderBy === headCell.id ? order : false}
+            align="center"
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : "asc"}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
 
-  const openDeleteConfirmModal = async (row) => {
+EnhancedTableHead.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
+
+function EnhancedTableToolbar(props) {
+  const { numSelected, listTrip, fetchTrips, setSelected } = props;
+  const handleDelete = async () => {
     try {
-      if (window.confirm("Are you sure you want to delete this user?")) {
-        console.log("Delete trip");
-      }
+      const response = await axios.post(
+        "http://localhost:3001/trip/delete",
+        { id: listTrip },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      fetchTrips();
+      setSelected([]);
     } catch (error) {
-      console.error("Error deleting user:", error);
+      console.log(error);
     }
   };
-  const handleEditClick = (row) => {};
 
-  const table = useMaterialReactTable({
-    onCreatingRowCancel: () => setValidationErrors({}),
-    onCreatingRowSave: handleCreateUser,
-    onEditingRowCancel: () => {
-      // Clear the editing phone number when canceling the edit
-      setEditingPhone(null);
-      setValidationErrors({});
-    },
-    onEditingRowSave: handleSaveUser,
-    columns,
-    data: data,
-    createDisplayMode: "modal",
-    editDisplayMode: "modal",
-    enableEditing: true,
-    getRowId: (row) => row.STT,
-    muiTableContainerProps: {
-      sx: {
-        overflowX: "auto",
-        width: "100%",
-      },
-    },
+  return (
+    <Toolbar
+      sx={{
+        pl: { sm: 2 },
+        pr: { xs: 1, sm: 1 },
+        ...(numSelected > 0 && {
+          bgcolor: (theme) =>
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
+        }),
+      }}
+    >
+      {numSelected > 0 ? (
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          Trip History Management
+        </Typography>
+      )}
 
-    renderRowActions: ({ row, table }) => (
-      <Box sx={{ display: "flex", gap: "1rem" }}>
-        <Tooltip title="Edit">
-          <IconButton onClick={() => handleEditClick(row)}>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-
+      {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton color="error" onClick={() => openDeleteConfirmModal(row)}>
+          <IconButton onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      </Box>
-    ),
-    renderTopToolbarCustomActions: ({ table }) => (
-      <Button
-        variant="contained"
-        onClick={() => {
-          table.setCreatingRow(true);
-        }}
-        sx={{ marginBottom: "16px" }}
-      >
-        ĐĂNG KÍ KHÁCH HÀNG MỚI
-      </Button>
-    ),
-    renderCreateRowDialogContent: ({ table, row, internalEditComponents }) => (
-      <>
-        <DialogTitle variant="h5">Thêm khách hàng</DialogTitle>
-        <DialogContent
-          sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-        >
-          {internalEditComponents.slice(0, 2)}
-        </DialogContent>
-        <DialogActions>
-          <MRT_EditActionButtons variant="text" table={table} row={row} />
-        </DialogActions>
-      </>
-    ),
-    renderEditRowDialogContent: ({ table, row, internalEditComponents }) => (
-      <>
-        <DialogTitle variant="h5">Edit User</DialogTitle>
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            marginTop: "10px",
-            gap: "1rem",
-          }}
-        >
-          {internalEditComponents.slice(0, 1)}
-        </DialogContent>
-        <DialogActions>
-          <MRT_EditActionButtons variant="text" table={table} row={row} />
-        </DialogActions>
-      </>
-    ),
-  });
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton>
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Toolbar>
+  );
+}
 
-  return <MaterialReactTable style={{ minWidth: "1000px" }} table={table} />;
+EnhancedTableToolbar.propTypes = {
+  numSelected: PropTypes.number.isRequired,
 };
 
-export default TableTrip;
+export default function EnhancedTable() {
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("STT");
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rows, setRows] = React.useState([]);
+  const [listTrip, setListTrip] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+  const fetchTrips = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/trip/getall", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setRows(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  React.useEffect(() => {
+    fetchTrips();
+  }, []);
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelected = rows.map((n) => n.id);
+      setSelected(newSelected);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+    setListTrip(newSelected);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const visibleRows = React.useMemo(() => {
+    const filteredRows = rows.filter((row) => !row.deleted); // Lọc bỏ những hàng có deleted là true
+    const sortedRows = stableSort(filteredRows, getComparator(order, orderBy));
+    return sortedRows.slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage
+    );
+  }, [order, orderBy, page, rowsPerPage, rows]);
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          listTrip={listTrip}
+          fetchTrips={fetchTrips}
+          setSelected={setSelected}
+        />
+        <TableContainer>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginBottom: "15px",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                marginTop: "20px",
+              }}
+              onClick={() => setOpen(true)}
+            >
+              Add Trip
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                marginTop: "20px",
+              }}
+              onClick={() => setOpen(true)}
+            >
+              Complete Trip
+            </Button>
+          </div>
+
+          <ModalTrip open={open} setOpen={setOpen} fetchTrips={fetchTrips} />
+          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+            />
+            <TableBody>
+              {visibleRows.map((row, index) => {
+                const isItemSelected = isSelected(row.STT);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                if (row.deleted) {
+                  return null;
+                }
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.STT)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.STT}
+                    selected={isItemSelected}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
+                      {row.STT}
+                    </TableCell>
+                    <TableCell align="center">{row.ids_car}</TableCell>
+                    <TableCell align="center">{row.date_start}</TableCell>
+                    <TableCell align="center">{row.distance}</TableCell>
+                    <TableCell align="center">{row.status}</TableCell>
+                    <TableCell align="center">{row.start_location}</TableCell>
+                    <TableCell align="center">{row.end_location}</TableCell>
+                  </TableRow>
+                );
+              })}
+              {emptyRows > 0 && (
+                <TableRow>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </Box>
+  );
+}

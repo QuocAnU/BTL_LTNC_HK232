@@ -24,6 +24,7 @@ export default function ModalDelete({
   setOpenDelete,
   ids,
   notifyDelete,
+  fetchVehicle,
 }) {
   const handleClose = () => setOpenDelete(false);
   const handleDelete = async () => {
@@ -43,6 +44,7 @@ export default function ModalDelete({
       if (response.status === 200) {
         notifyDelete();
         setOpenDelete(false);
+        fetchVehicle();
       }
     } catch (error) {
       console.log(error);

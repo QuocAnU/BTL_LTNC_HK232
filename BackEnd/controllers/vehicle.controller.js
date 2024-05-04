@@ -40,10 +40,8 @@ export const showAddVehicle = (req, res) => {
 export const addVehicle = async (req, res) => {
   try {
     verifyToken(req, res, async () => {
-      const maxVehicle = await Vehicle.findOne().sort({ ids: -1 });
-      let maxIds = maxVehicle.ids + 1;
       const vehicle = new Vehicle({
-        ids: maxIds,
+        ids: req.body.ids,
         type: req.body.type,
         size: req.body.size,
         weight: req.body.weight,
@@ -61,13 +59,13 @@ export const addVehicle = async (req, res) => {
 export const deleteVehicle = async (req, res) => {
   try {
     verifyToken(req, res, async () => {
-      const ids = parseInt(req.body.ids);
+      const ids = req.body.ids;
       const vehicle = await Vehicle.findOne({ ids: ids });
       if (!vehicle) {
         return res.status(404).json({ message: "Vehicle not found" });
       } else {
         await Vehicle.findOneAndUpdate({ ids: ids }, { deleted: true });
-        res.redirect("/vehicle/getall");
+        res.status(200).json({ message: "Delete success" });
       }
     });
   } catch (error) {
@@ -98,18 +96,14 @@ export const updateVehicle = async (req, res) => {
       if (!status) {
         status = vehicle.status;
       }
-      if (!deleted) {
-        deleted = vehicle.delete;
-      }
       await Vehicle.findOneAndUpdate(
-        { ids: parseInt(ids) },
+        { ids: ids },
         {
           type: type,
           size: size,
           weight: weight,
           fuel: fuel,
           status: status,
-          deleted: deleted,
           urlimage: urlimage,
         }
       );
@@ -123,7 +117,9 @@ export const getTripByCar = async (req, res) => {
   try {
     verifyToken(req, res, async () => {
       const ids = req.body.ids.ids;
+      console.log(typeof ids);
       const trips = await Trip.find({ ids_car: ids });
+      console.log(trips);
       res.status(200).json(trips);
     });
   } catch (error) {
