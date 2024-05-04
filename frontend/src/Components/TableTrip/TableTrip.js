@@ -17,6 +17,7 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import axios from "axios";
@@ -177,6 +178,23 @@ function EnhancedTableToolbar(props) {
       console.log(error);
     }
   };
+  const handleDoneTrip = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/trip/doneTrip",
+        { id: listTrip },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      fetchTrips();
+      setSelected([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Toolbar
@@ -213,11 +231,24 @@ function EnhancedTableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton onClick={handleDelete}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Tooltip title="Delete">
+            <IconButton onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Done">
+            <IconButton onClick={handleDoneTrip}>
+              <CreditScoreIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
@@ -330,7 +361,7 @@ export default function EnhancedTable() {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-around",
+              justifyContent: "center",
               marginBottom: "15px",
             }}
           >
@@ -342,15 +373,6 @@ export default function EnhancedTable() {
               onClick={() => setOpen(true)}
             >
               Add Trip
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                marginTop: "20px",
-              }}
-              onClick={() => setOpen(true)}
-            >
-              Complete Trip
             </Button>
           </div>
 

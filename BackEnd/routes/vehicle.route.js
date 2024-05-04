@@ -17,4 +17,5 @@ router.route("/update").post(updateVehicle);
 router.route("/getall").get(getAllVehicles);
 router.route("/getcar").get(getCarByParam);
 router.route("/getTripByCar").post(getTripByCar);
+
 export const vehicleRouter = router;

@@ -147,3 +147,29 @@ export const getDriverByEx = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const doneTrip = async (req, res) => {
+  try {
+    verifyToken(req, res, async () => {
+      const { id } = req.body;
+      //id is an array of STT of trips
+      const trip = await Trip.updateMany(
+        { STT: { $in: id } },
+        { status: "Success" }
+      );
+      // update driver's experience after done trip, new experience = old experience + (distance/10)
+      const trips = await Trip.find({ STT: { $in: id } });
+      trips.forEach(async (trip) => {
+        const driver = await Drivers.findOne({ STT: trip.ids_driver });
+        const newEx = driver.exp + trip.distance / 10;
+        const updatedDriver = await Drivers.findOneAndUpdate(
+          { STT: trip.ids_driver },
+          { exp: newEx },
+          { new: true }
+        );
+      });
+      res.status(200).send(trip);
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

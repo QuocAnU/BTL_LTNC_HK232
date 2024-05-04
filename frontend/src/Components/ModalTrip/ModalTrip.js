@@ -258,11 +258,16 @@ export default function ModalTrip(props) {
                     minWidth: 150,
                   }}
                 >
-                  {listDriver.map((driver) => (
-                    <MenuItem value={driver.name} key={driver.STT}>
-                      {driver.name}
-                    </MenuItem>
-                  ))}
+                  {listDriver.map((driver) => {
+                    if (driver.status === "free") {
+                      return (
+                        <MenuItem value={driver.name} key={driver.STT}>
+                          {driver.name}
+                        </MenuItem>
+                      );
+                    }
+                    return null;
+                  })}
                 </Select>
               </FormControl>
             </div>
