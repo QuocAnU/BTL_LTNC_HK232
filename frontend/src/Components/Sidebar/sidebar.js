@@ -37,9 +37,15 @@ const Sidebar = () => {
         >
           Manager Vehicles
         </Link>
-        <a href="/admin/trip" className={cx("item")}>
+        <Link
+          to="/admin/trip"
+          className={cx("item", {
+            "item-selected": activeItem === "trip",
+          })}
+          onClick={() => handleItemClick("trip")}
+        >
           Manager Trips
-        </a>
+        </Link>
       </div>
       <div className={cx("log")}>
         <a href="/" className={cx("logout")}>

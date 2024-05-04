@@ -1,4 +1,5 @@
 import { Trip } from "../models/Trip.js";
+import { Drivers } from "../models/driver.model.js";
 import { verifyToken } from "../middleware/jwtAuthentication.js";
 export const getAllTrips = async (req, res) => {
   try {
@@ -38,22 +39,21 @@ export const createTrip = async (req, res) => {
       let {
         date_start,
         date_expected,
-        status,
         start_location,
         end_location,
         distance,
         cost,
         revenue,
         ids_driver,
-        ids_car,
       } = req.body;
       const profit = revenue - cost;
-      console.log(date_start);
+      const driver = await Drivers.findOne({ STT: ids_driver });
+      console.log(driver);
+      const ids_car = driver.ids_car;
       const trip = new Trip({
         STT,
         date_start,
         date_expected,
-        status,
         start_location,
         end_location,
         distance,
@@ -64,7 +64,7 @@ export const createTrip = async (req, res) => {
         ids_car,
       });
       const newTrip = await trip.save();
-      res.status(201).json(newTrip);
+      res.status(200).json(newTrip);
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -123,8 +123,50 @@ export const updateTrip = async (req, res) => {
 export const deleteTrip = async (req, res) => {
   try {
     verifyToken(req, res, async () => {
-      const { _id } = req.body;
-      const trip = await Trip.findOneAndUpdate({ _id }, { deleted: true });
+      //req.body.id is an array of STT of trips
+      const { id } = req.body;
+      const trip = await Trip.updateMany(
+        { STT: { $in: id } },
+        { deleted: true }
+      );
+      res.status(200).send(trip);
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const getDriverByEx = async (req, res) => {
+  try {
+    verifyToken(req, res, async () => {
+      const drivers = await Drivers.find();
+      //sort by experience
+      const newDrivers = drivers.sort((a, b) => a.ex - b.ex);
+      res.status(200).send(newDrivers);
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const doneTrip = async (req, res) => {
+  try {
+    verifyToken(req, res, async () => {
+      const { id } = req.body;
+      //id is an array of STT of trips
+      const trip = await Trip.updateMany(
+        { STT: { $in: id } },
+        { status: "Success" }
+      );
+      // update driver's experience after done trip, new experience = old experience + (distance/10)
+      const trips = await Trip.find({ STT: { $in: id } });
+      trips.forEach(async (trip) => {
+        const driver = await Drivers.findOne({ STT: trip.ids_driver });
+        const newEx = driver.exp + trip.distance / 10;
+        const updatedDriver = await Drivers.findOneAndUpdate(
+          { STT: trip.ids_driver },
+          { exp: newEx },
+          { new: true }
+        );
+      });
       res.status(200).send(trip);
     });
   } catch (error) {

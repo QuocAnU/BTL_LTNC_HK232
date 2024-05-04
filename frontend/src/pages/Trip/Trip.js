@@ -12,7 +12,7 @@ function CarManage() {
           fontWeight: "bold",
         }}
       >
-        List Of Car Available
+        Trip Management
       </h3>
       <TableTrip />
     </div>

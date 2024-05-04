@@ -153,6 +153,7 @@ export default function MediaCard({
             setOpenDelete={setOpenDelete}
             ids={ids}
             notifyDelete={notifyDelete}
+            fetchVehicle={fetchVehicle}
           />
           <TripDetail
             openDetailTrip={openDetailTrip}
