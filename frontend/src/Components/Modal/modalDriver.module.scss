@@ -67,3 +67,77 @@
     color: white;
     /* Màu chữ */
 }
+
+.wrapper {
+    background: #176b87;
+    border-radius: 58px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.edit-driver {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Canh giữa theo trục ngang */
+    justify-content: center;
+    /* Canh giữa theo trục dọc */
+    height: 100%;
+    /* Đảm bảo tiêu đề được căn giữa trong container */
+   
+}
+
+.title-name,
+.title-fuel,
+.title-weight,
+.title-size,
+.title-species,
+.title-status {
+    margin-right: 10px;
+    margin-left: 30px;
+}
+
+.form-group1,
+.form-group2,
+.form-group3,
+.form-group4 {
+    width: 100%;
+    display: flex;
+    min-width: 100px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.species {
+    margin-right: 10px;
+}
+
+.title-weight,
+.title-name,
+.title-species,
+.title-size {
+    min-width: 80px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    flex-grow: 1;
+    margin-right: 10px;
+    /* Khoảng cách giữa các ô input */
+}
+
+
+
+.deleted {
+    background-color: #176B87;
+    padding: 5px;
+}
+
+.modal-content-d {
+    background-color: #B3E5FC;
+    border-radius: 30px;
+    padding: 0 30px 30px 30px;
+}

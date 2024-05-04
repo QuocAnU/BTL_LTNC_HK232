@@ -167,7 +167,6 @@ export default function TransitionsModal({ children }) {
                     style={{
                       width: "100%",
                       height: "100%",
-                      marginTop: "10px",
                       display: display,
                       objectFit: "fit",
                       borderRadius: 30,

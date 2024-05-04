@@ -4,7 +4,7 @@ export const getAllTrips = async (req, res) => {
   try {
     verifyToken(req, res, async () => {
       const trips = await Trip.find();
-      res.send(trips);
+      res.status(200).send(trips);
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

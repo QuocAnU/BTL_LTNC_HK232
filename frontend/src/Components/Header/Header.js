@@ -18,10 +18,10 @@ function Header() {
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header1")} onClick={handleBackHome}>
-        <img src={logo} alt="logo" className={cx("logo")}></img>
+        {/* <img src={logo} alt="logo" className={cx("logo")}></img> */}
         <img src={title} alt="title" className={cx("title")}></img>
       </div>
-      <div className={cx("action")}>
+      {/* <div className={cx("action")}>
         <div>
           <HomeIcon className={cx("action-icon")} sx={{ fontSize: 40 }} />
           <div className={cx("active")}></div>
@@ -56,7 +56,7 @@ function Header() {
         <AccountCircleIcon className={cx("search-icon2")} sx={{ fontSize: 40 }}>
           <AccountCircleIcon />
         </AccountCircleIcon>
-      </BasicMenu>
+      </BasicMenu> */}
     </div>
   );
 }

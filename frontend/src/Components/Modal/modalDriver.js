@@ -7,7 +7,7 @@ import styles from "./modalDriver.module.scss";
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
-const DetailInfoDriver = ({ selectedDriver, modalOpen }) => {
+const DetailInfoDriver = ({ selectedDriver, setSelectedDriver, modalOpen, setModalOpen }) => {
 
     const [history, setHistory] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -34,7 +34,7 @@ const DetailInfoDriver = ({ selectedDriver, modalOpen }) => {
         <div className={cx('modal-content')}>
             <h1 className={cx('text')} > Detail Information </h1>
             <div className={cx('content')}>
-                <DriverCard driverData={selectedDriver} modalOpen={modalOpen} />
+                <DriverCard driverData={selectedDriver} setSelectedDriver={setSelectedDriver} modalOpen={modalOpen} setModalOpen={setModalOpen} />
                 <div className={cx('history-content')}>
                     <h2 className={cx('route-history')}>Route history</h2>
                     <div className={cx("styles-box", "table-container")}>
