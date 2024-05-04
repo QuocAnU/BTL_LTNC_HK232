@@ -33,9 +33,9 @@ export default function CreateModalDriver({ createModalOpen, setCreateModalOpen 
     const [phone, setPhone] = React.useState("")
     const [address, setAddress] = React.useState("")
     const [license, setLicense] = React.useState("")
-    const [status, setStatus] = React.useState("on")
+    const [status, setStatus] = React.useState("free")
     const [ids_car, setIds_car] = React.useState("")
-    const [vehicleType, setVehicleType] = React.useState("Truck")
+    const [vehicleType, setVehicleType] = React.useState("")
 
     const [vehicleData, setVehicleData] = React.useState([])
     const [selectVehicle, setSelectVehicle] = React.useState(null)
@@ -91,19 +91,25 @@ export default function CreateModalDriver({ createModalOpen, setCreateModalOpen 
         );
         return result;
     };
+    const findVehicleById = (id) => {
+        setIds_car(id)
+        return vehicleData.find(car => car.ids === id);
+    }
     const handleCreateDriver = async () => {
         let result;
         result = await fetchImage(file);
-        console.log(result.data);
+        // console.log(result.data);
         const formData = new FormData();
+
+        console.log("ids: ", ids_car)
         formData.append("name", name)
         formData.append("status", status)
         formData.append("address", address)
         formData.append("gender", gender)
         formData.append("phone", phone)
         formData.append("license", license)
-        formData.append("vehicleType", vehicleType)
-        formData.append("ids_car", selectVehicle)
+        formData.append("vehicleType", selectVehicle.type)
+        formData.append("ids_car", ids_car)
         formData.append("deleted", false)
         formData.append("totaldistance", 0)
         formData.append("urlimage", result.data)
@@ -227,9 +233,9 @@ export default function CreateModalDriver({ createModalOpen, setCreateModalOpen 
                                     paddingLeft: "20px",
                                 }}
                             >
-                                <option value="on">On</option>
-                                <option value="free">Free</option>
-                                <option value="off">Off</option>
+                                <option value="free">free</option>
+                                <option value="on">on</option>
+                                <option value="off">off</option>
                             </select>
                         </div>
                         <div className={cx("form-group2")}>
@@ -301,35 +307,21 @@ export default function CreateModalDriver({ createModalOpen, setCreateModalOpen 
                                     border: "none",
                                     background: "#d9d9d9",
                                     paddingLeft: 20,
-                                    marginLeft: 30
+                                    marginRight: "30px"
                                 }}
                             >
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
 
-                            <h3 className={cx("title-size")}>Car: </h3>
-                            <select
-                                onChange={(e) => setVehicleType(e.target.value)}
-                                name="vehicleType"
-                                // defaultValue={driverData.vehicleType}
-                                style={{
-                                    width: 100,
-                                    borderRadius: 5,
-                                    height: 47,
-                                    border: "none",
-                                    paddingLeft: "20px",
-                                    background: "#d9d9d9",
-                                    marginRight: "30px"
-                                }}
-                            >
-                                <option value="truck">Truck</option>
-                                <option value="medium">Medium</option>
-                                <option value="large">Large</option>
-                            </select>
+
+
+                        </div>
+                        <div className={cx("form-group4")}>
+
                             <h3 className={cx("title-name")}> Current car ID : </h3>
                             <select
-                                onChange={(e) => setSelectVehicle(e.target.value)}
+                                onChange={(e) => setSelectVehicle(findVehicleById(e.target.value))}
                                 name="ids_car"
                                 style={{
                                     borderRadius: 5,
@@ -337,7 +329,7 @@ export default function CreateModalDriver({ createModalOpen, setCreateModalOpen 
                                     border: "none",
                                     background: "#d9d9d9",
                                     paddingLeft: "20px",
-                                    marginRight: "30px"
+
                                 }}
                             >
                                 <option value="">Select a car</option>
@@ -347,8 +339,28 @@ export default function CreateModalDriver({ createModalOpen, setCreateModalOpen 
                                     </option>
                                 ))}
                             </select>
+
+                            <h3 className={cx("title-size")}>Car: </h3>
+                            <input
+                                type="text"
+                                name="vehicleType"
+                                value={selectVehicle ? selectVehicle.type : ""}
+                                // onChange={(e) => setPhone(e.target.value)}
+                                // defaultValue={driverData.phone}
+                                disabled={true}
+                                style={{
+                                    borderRadius: 5,
+                                    height: 47,
+                                    border: "none",
+                                    background: "#d9d9d9",
+                                    marginLeft: "55px",
+                                    paddingLeft: "20px",
+                                    marginRight: "30px"
+
+                                }}
+                            />
                         </div>
-                        <div className={cx("form-group4")}>
+                        <div className={cx("form-group5")}>
 
                         </div>
                         <div style={{ display: 'felx' }}>

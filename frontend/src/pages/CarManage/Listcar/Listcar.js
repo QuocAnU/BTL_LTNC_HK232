@@ -1,7 +1,7 @@
 import styles from "./Listcar.module.scss";
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
-import Card from "../../../components/Card/Card";
+import Card from "../../../Components/Card/Card";
 import { Button } from "@mui/material";
 import TransitionsModal from "../Modal/Modal";
 import axios from "axios";

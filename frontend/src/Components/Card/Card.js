@@ -8,8 +8,8 @@ import classNames from "classnames/bind";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModalEdit from "../../pages/CarManage/ModalEdit/ModalEdit";
-import ModalDelete from "../../components/ModalDelete/ModalDelete";
-import TripDetail from "../../components/TripDetail/TripDetail";
+import ModalDelete from "../../Components/ModalDelete/ModalDelete";
+import TripDetail from "../../Components/TripDetail/TripDetail";
 const cx = classNames.bind(styles);
 export default function MediaCard({
   ids,

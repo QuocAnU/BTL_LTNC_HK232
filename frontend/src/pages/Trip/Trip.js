@@ -1,6 +1,6 @@
 import styles from "./Trip.module.scss";
 import classNames from "classnames/bind";
-import TableTrip from "../../components/TableTrip/TableTrip";
+import TableTrip from "../../Components/TableTrip/TableTrip";
 const cx = classNames.bind(styles);
 
 function CarManage() {

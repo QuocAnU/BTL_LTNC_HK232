@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import DriverCard from "../../components/Card/driverCard";
-import apiEndPoint from "../../components/Api/Drivers/apiDriver";
+import DriverCard from "../../Components/Card/driverCard";
+import apiEndPoint from "../../Components/Api/Drivers/apiDriver";
 import styles from "./driverManage.module.scss";
 import classNames from "classnames/bind";
 
 import { Modal, Button } from "@mui/material";
-import DetailInfoDriver from "../../components/Modal/modalDriver";
-import CreateModalDriver from "../../components/Modal/createModalDriver";
+import DetailInfoDriver from "../../Components/Modal/modalDriver";
+import CreateModalDriver from "../../Components/Modal/createModalDriver";
 
 const cx = classNames.bind(styles);
 
@@ -26,6 +26,8 @@ const DriverManage = () => {
     const [start, setStart] = useState(0);
     const [end, setEnd] = useState(8);
 
+    const [searchQuery, setSearchQuery] = useState("");
+
     const handleShowMore = () => {
         setEnd((prev) => prev + 8);
     };
@@ -37,6 +39,7 @@ const DriverManage = () => {
                 const allDrivers = await apiEndPoint.getAllDrivers();
                 const filteredDrivers = allDrivers.filter(driver => !driver.deleted);
                 setDriverData(filteredDrivers.reverse());
+                console.log("driver: ", allDrivers)
             }
             catch (error) {
                 console.error('Error fetching data:', error);
@@ -65,6 +68,8 @@ const DriverManage = () => {
     const handleCloseModal = () => {
         setSelectedDriver(null);
         setModalOpen(false);
+        // window.location.reload()
+
     };
 
     const handleCloseCreateModal = () => {
@@ -73,21 +78,41 @@ const DriverManage = () => {
 
     const newDriverData = driverData ? driverData.slice(start, end) : [];
 
+    const filteredDriverData = driverData ? driverData.filter(driver =>
+        driver.name.toLowerCase().includes(searchQuery.toLowerCase())
+    ) : [];
 
     return (
         <div style={{ paddingTop: '0px', display: 'flex', justifyContent: 'center' }}>
             <div style={{ width: '100%', background: '#f2f2f2', borderRadius: '20px' }}>
-                <h1>Danh sách tài xế</h1>
-                <Button
+                <h1>List Of Driver Available</h1>
+                <div> <Button
                     onClick={() => handleCreateDriver()}
                     variant="contained"
-                    size="large">Thêm tài xế</Button>
+                    size="large">Add driver</Button>
+
+                    <input
+                        style={{
+                            height: '35px',
+                            borderRadius: '5px',
+                            // width: '50%',
+                            border: '1px solid',
+                            marginLeft: '50px',
+                            paddingLeft: '10px'
+                        }}
+                        type="text"
+                        placeholder="Search driver"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+                    />
+                </div>
+
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
                     <div className={cx("styles-boxs")} >
                         <div className={cx("listdriver")}>
-                            {newDriverData.map((item) => {
+                            {filteredDriverData.map((item) => {
                                 return (
                                     <div key={item._id} onClick={() => handleDriverClick(item)} >
                                         <DriverCard driverData={item} setDriverData={setDriverData} setSelectedDriver={setSelectedDriver} />
