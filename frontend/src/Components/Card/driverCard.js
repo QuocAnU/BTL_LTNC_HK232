@@ -116,6 +116,11 @@ const DriverCard = ({ driverData, setDriverData, setSelectedDriver, modalOpen, s
                 >
                     {modalOpen && <Typography variant="body2" color="text.white" >
                         Full name:{driverData.name}
+
+                    </Typography>}
+                    {modalOpen && <Typography variant="body2" color="text.white" marginTop="5px">
+                        Exprience:{driverData.exp}
+
                     </Typography>}
                     {modalOpen && <Typography variant="body2" color="text.white" marginTop="5px">
                         Gender:{driverData.gender}
@@ -132,7 +137,7 @@ const DriverCard = ({ driverData, setDriverData, setSelectedDriver, modalOpen, s
                     {modalOpen && <Typography variant="body2" color="text.white" marginTop="5px"  >
                         Status:{driverData.status}
                     </Typography>}
-                    {modalOpen && <Typography variant="body2" color="text.white" marginTop="5px">
+                    {<Typography variant="body2" color="text.white" marginTop="5px">
                         Current car ID:{driverData.ids_car}
                     </Typography>}
 
