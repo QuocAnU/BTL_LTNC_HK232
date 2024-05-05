@@ -1,6 +1,5 @@
 //connect to mongo db
 import mongoose from "mongoose";
-import { db } from "../env.js";
 
 class Database {
   constructor() {
@@ -10,7 +9,7 @@ class Database {
 
   async connect() {
     try {
-      await mongoose.connect(db, {
+      await mongoose.connect(process.env.db, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       });

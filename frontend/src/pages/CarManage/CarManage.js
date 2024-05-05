@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import Listcar from "./Listcar/Listcar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import SearchInput from "../../components/SearchInput/SearchInput";
+import SearchInput from "../../Components/SearchInput/SearchInput";
 import axios from "axios";
 
 const cx = classNames.bind(styles);
