@@ -7,15 +7,20 @@ const driverSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    name: {
-      type: String,
-      required: true,
-    },
+  
     gender: {
       type: String,
       required: true,
     },
     phone: {
+      type: String,
+      required: true,
+    },
+    totaldistance: {
+      type: Number,
+      required: true,
+    },
+    name: {
       type: String,
       required: true,
     },
@@ -26,12 +31,7 @@ const driverSchema = new mongoose.Schema(
     license: {
       type: String,
       required: true,
-    },
-    totaldistance: {
-      type: Number,
-      required: true,
-    },
-
+    }, 
     status: {
       type: String,
       required: true,
@@ -99,31 +99,20 @@ class DriversManager {
         { new: true } // Return the updated document
       );
       if (!driver) {
-        // If driver is not found, return 404 status with a message
+
         throw new Error("Driver not found");
       }
-      // Return a success message or any relevant data
+
       return { message: "Driver deleted successfully", driver };
     } catch (error) {
-      // Log the error for debugging
+
       console.error(error.message);
-      // Throw the error for the calling function to handle
+
       throw new Error("Failed to delete driver");
     }
   }
 }
 
-// export const getDriverById = async (id) => {
-//     try {
-//         const driversById = await Drivers.findById(id);
-//         if (!driversById) {
-//             return res.status(404).send({ message: "Driver not found" });
-//         }
-//         return driversById
-//     } catch (error) {
-//         console.error(error.message);
-//         throw new Error("Failed to get driver");
-//     }
-// }
+
 
 export { Drivers, DriversManager };
