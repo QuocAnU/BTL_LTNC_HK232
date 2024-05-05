@@ -16,6 +16,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 import axios from "axios";
 const cx = classNames.bind(styles);
 
@@ -56,8 +57,8 @@ export default function ModalTrip(props) {
   };
   const handleCreateTrip = async () => {
     const data = {
-      date_start: date,
-      date_expected: date_expected,
+      date_start: dayjs(date).format("DD/MM/YYYY"),
+      date_expected: dayjs(date_expected).format("DD/MM/YYYY"),
       status: "not begin",
       start_location: start_locaction,
       end_location: end_location,
