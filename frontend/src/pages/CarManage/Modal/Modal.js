@@ -37,7 +37,7 @@ export default function TransitionsModal({ children }) {
   const [species, setSpecies] = React.useState("truck");
   const [fuel, setFuel] = React.useState("diesel");
   const [weight, setWeight] = React.useState(0);
-  const [status, setStatus] = React.useState("on");
+  const [status, setStatus] = React.useState("off");
   const [size, setSize] = React.useState("small");
   const [file, setFile] = React.useState("");
   const handleImageChange = async (event) => {
@@ -252,6 +252,7 @@ export default function TransitionsModal({ children }) {
                     }}
                   >
                     <option value="on">On</option>
+                    <option value="maintain">Maintain</option>
                     <option value="off">Off</option>
                   </select>
                 </div>
