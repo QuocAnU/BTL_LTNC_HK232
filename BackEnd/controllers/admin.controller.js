@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 
 export const getAdminById = async (req, res) => {
     const { id } = req.params;
+
     const admin = await Admin.findById(id);
     return res.status(200).send(admin);
 

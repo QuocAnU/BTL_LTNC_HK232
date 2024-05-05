@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+//import { Button } from '@mui/material'
 import { useState, useEffect } from 'react';
 import DriverCard from '../Card/driverCard';
 import apiEndPoint from '../Api/Drivers/apiDriver';
@@ -26,7 +26,7 @@ const DetailInfoDriver = ({ selectedDriver, modalOpen }) => {
             }
         };
         fetchData();
-    }, []);
+    }, [selectedDriver._id]);
     return (
 
 

@@ -1,7 +1,7 @@
 import styles from "./Listcar.module.scss";
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
-import Card from "../../../components/Card/Card";
+import MediaCard from "../../../Components/Card/Card";
 import { Button } from "@mui/material";
 const cx = classNames.bind(styles);
 function Listcar() {
@@ -29,7 +29,7 @@ function Listcar() {
     <div className={cx("listcar")}>
       {newVehicle.map((item) => {
         return (
-          <Card
+          <MediaCard
             key={item._id}
             ids={item.ids}
             type={item.type}

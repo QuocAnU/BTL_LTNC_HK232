@@ -11,7 +11,8 @@ import SupportAgentIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BasicMenu from "./Menuprofile/Menuprofile";
 const cx = classNames.bind(styles);
-function Header() {
+
+export default function Header() {
   const handleBackHome = () => {
     window.location.href = "/";
   };
@@ -61,4 +62,4 @@ function Header() {
   );
 }
 
-export default Header;
+//export default Header;

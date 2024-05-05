@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import DriverCard from "../../components/Card/driverCard";
-import apiEndPoint from "../../components/Api/Drivers/apiDriver";
+import DriverCard from "../../Components/Card/driverCard";
+import apiEndPoint from "../../Components/Api/Drivers/apiDriver";
 import styles from "./driverManage.module.scss";
 import classNames from "classnames/bind";
 
 import { Modal, Button } from "@mui/material";
-import DetailInfoDriver from "../../components/Modal/modalDriver";
+import DetailInfoDriver from "../../Components/Modal/modalDriver";
 
 const cx = classNames.bind(styles);
 
